@@ -37,7 +37,7 @@ Genedy Metal is a full-stack web application for a premium aluminum solutions co
 
 ## Project Structure
 ```
-MetalTest/
+GenedyMetal-Hub/
 ├── **Backend/**
 │   ├── DB/
 │   │   ├── dbConnection.js
