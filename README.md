@@ -37,25 +37,80 @@ Genedy Metal is a full-stack web application for a premium aluminum solutions co
 
 ## Project Structure
 ```
-GenedyMetal-Hub/
-├── **Backend/**
-│   ├── DB/
-│   │   ├── dbConnection.js
-│   │   └── Model/
-│   │       ├── user.model.js
-│   │       ├── message.model.js
-│   │       └── reservation.model.js
-│   ├── index.js
-│   ├── package.json
-│   └── SRC/
-│       ├── Middleware/
-│       └── Modules/
-├── **Frontend/**
-│   ├── HTML/
-│   ├── HTML-AR/
-│   ├── CSS/
-│   ├── JS/
-│   └── Assets/
+GenedyMetal Hub/
+  ├── Backend/
+  │   ├── DB/
+  │   │   ├── dbConnection.js
+  │   │   └── Model/
+  │   │       ├── message.model.js
+  │   │       ├── reservation.model.js
+  │   │       └── user.model.js
+  │   ├── index.js
+  │   ├── package-lock.json
+  │   ├── package.json
+  │   └── SRC/
+  │       ├── Middleware/
+  │       │   ├── auth.js
+  │       │   ├── errorHandler.js
+  │       │   └── validation.js
+  │       └── Modules/
+  │           ├── Messages/
+  │           │   ├── message.controller.js
+  │           │   ├── message.router.js
+  │           │   └── message.validation.js
+  │           ├── Reservation/
+  │           │   ├── reservation.controller.js
+  │           │   ├── reservation.router.js
+  │           │   └── reservation.validation.js
+  │           └── User/
+  │               ├── user.controller.js
+  │               ├── user.router.js
+  │               └── user.validation.js
+  ├── Frontend/
+  │   ├── Assets/
+  │   │   ├── about.jpg
+  │   │   ├── b&w logo.png
+  │   │   ├── Banner.jpg
+  │   │   ├── Contact.jpg
+  │   │   ├── Door.jpg
+  │   │   ├── frontage.jpg
+  │   │   ├── Kitchen.jpg
+  │   │   ├── Using.jpg
+  │   │   └── Window.jpg
+  │   ├── CSS/
+  │   │   ├── admin-login.css
+  │   │   ├── admin.css
+  │   │   ├── index.css
+  │   │   ├── main.css
+  │   │   ├── reservation.css
+  │   │   ├── user-dashboard.css
+  │   │   └── welcome.css
+  │   ├── HTML/
+  │   │   ├── admin-login.html
+  │   │   ├── admin.html
+  │   │   ├── index.html
+  │   │   ├── main.html
+  │   │   ├── reservation.html
+  │   │   ├── signin.html
+  │   │   ├── signup.html
+  │   │   ├── user-dashboard.html
+  │   │   └── welcome.html
+  │   ├── HTML-AR/
+  │   │   ├── index-ar.html
+  │   │   ├── main-ar.html
+  │   │   ├── reservation-ar.html
+  │   │   ├── signin-ar.html
+  │   │   ├── signup-ar.html
+  │   │   ├── user-dashboard-ar.html
+  │   │   └── welcome-ar.html
+  │   └── JS/
+  │       ├── admin-login.js
+  │       ├── admin.js
+  │       ├── main.js
+  │       ├── reservation.js
+  │       ├── user-dashboard.js
+  │       └── welcome.js
+  └── README.md
 ```
 
 ---
