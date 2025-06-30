@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Reservation Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Mobile menu toggle -->
+    <button class="mobile-menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="admin-logo">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h2 class="admin-title">Admin Panel</h2>
+                <p class="admin-subtitle">Reservation Management</p>
+            </div>
+            
+            <nav class="nav-menu">
+                <ul>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-section="reservations">
+                            <i class="fas fa-calendar-check"></i>
+                            Reservations
+                            <span class="nav-badge" id="pendingCount">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="messages">
+                            <i class="fas fa-envelope"></i>
+                            Messages
+                            <span class="nav-badge" id="unreadMessagesCount">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="customers">
+                            <i class="fas fa-users"></i>
+                            Customers
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Reservations Section -->
+            <div class="content-section" id="reservationsSection">
+                <div class="dashboard-header">
+                    <h1 class="page-title">Reservation Management</h1>
+                    <div class="header-actions">
+                        <a href="#" class="action-btn" onclick="exportData()">
+                            <i class="fas fa-download"></i>
+                            Export Data
+                        </a>
+                        <a href="#" class="action-btn" onclick="addManualBooking()">
+                            <i class="fas fa-plus"></i>
+                            Add Manual Booking
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon pending">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-number" id="pendingStats">0</div>
+                        <div class="stat-label">Pending Requests</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon confirmed">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-number" id="confirmedStats">0</div>
+                        <div class="stat-label">Confirmed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon cancelled">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="stat-number" id="cancelledStats">0</div>
+                        <div class="stat-label">Cancelled</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon total">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-number" id="totalStats">0</div>
+                        <div class="stat-label">Total This Month</div>
+                    </div>
+                </div>
+
+                <!-- Reservations Section -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Recent Reservations</h2>
+                        <div class="filter-tabs">
+                            <button class="filter-tab active" data-filter="all">All</button>
+                            <button class="filter-tab" data-filter="pending">Pending</button>
+                            <button class="filter-tab" data-filter="confirmed">Confirmed</button>
+                            <button class="filter-tab" data-filter="cancelled">Cancelled</button>
+                        </div>
+                    </div>
+
+                    <div class="reservations-list" id="reservationsList">
+                        <!-- Reservation items will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Section -->
+            <div class="content-section" id="messagesSection" style="display: none;">
+                <div class="dashboard-header">
+                    <h1 class="page-title">Message Management</h1>
+                    <div class="header-actions">
+                        <a href="#" class="action-btn" onclick="exportMessages()">
+                            <i class="fas fa-download"></i>
+                            Export Messages
+                        </a>
+                        <a href="#" class="action-btn" onclick="markAllAsRead()">
+                            <i class="fas fa-check-double"></i>
+                            Mark All as Read
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Messages Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon pending">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="stat-number" id="unreadMessagesStats">0</div>
+                        <div class="stat-label">Unread Messages</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon confirmed">
+                            <i class="fas fa-envelope-open"></i>
+                        </div>
+                        <div class="stat-number" id="readMessagesStats">0</div>
+                        <div class="stat-label">Read Messages</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon cancelled">
+                            <i class="fas fa-reply"></i>
+                        </div>
+                        <div class="stat-number" id="repliedMessagesStats">0</div>
+                        <div class="stat-label">Replied</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon total">
+                            <i class="fas fa-inbox"></i>
+                        </div>
+                        <div class="stat-number" id="totalMessagesStats">0</div>
+                        <div class="stat-label">Total Messages</div>
+                    </div>
+                </div>
+
+                <!-- Messages Section -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Recent Messages</h2>
+                        <div class="filter-tabs">
+                            <button class="filter-tab active" data-filter="all">All</button>
+                            <button class="filter-tab" data-filter="pending">Unread</button>
+                            <button class="filter-tab" data-filter="read">Read</button>
+                            <button class="filter-tab" data-filter="replied">Replied</button>
+                        </div>
+                    </div>
+
+                    <div class="messages-list" id="messagesList">
+                        <!-- Message items will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customers Section -->
+            <div class="content-section" id="customersSection" style="display: none;">
+                <div class="dashboard-header">
+                    <h1 class="page-title">Customers</h1>
+                </div>
+                <div class="customers-controls">
+                    <input type="text" id="customerSearchInput" class="customer-search-input" placeholder="Search by name or email...">
+                </div>
+                <div class="customers-table-wrapper">
+                    <table class="customers-table" id="customersTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Joined</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customersTableBody">
+                            <!-- Customers will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="../JS/admin.js"></script>
+</body>
+</html>

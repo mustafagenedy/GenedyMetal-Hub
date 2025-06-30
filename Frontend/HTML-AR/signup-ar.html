@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>جنيدي للمعادن - إنشاء حساب</title>
+    <meta name="keywords" content="أبواب ألومنيوم, نوافذ ألومنيوم, مطابخ ألومنيوم, تصنيع معادن, مصر, الجيزة">
+    <meta name="description" content="سجل في جنيدي للمعادن للحصول على وصول حصري لحلول الألومنيوم المتميزة.">
+    <meta name="author" content="جنيدي للمعادن">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- CSS File -->
+    <link rel="stylesheet" href="../CSS/index.css">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+        }
+        .auth-left {
+            text-align: right;
+        }
+        .feature-list {
+            padding-right: 0;
+        }
+        .form-control {
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="auth-container row g-0">
+                    <!-- Left Side -->
+                    <div class="col-lg-5 auth-left">
+                        <a href="welcome.html" class="back-to-home">
+                            <i class="fas fa-arrow-left"></i>
+                            العودة
+                        </a>
+                        
+                        <div class="brand-logo">
+                            <h2>جنيدي للمعادن</h2>
+                        </div>
+                        
+                        <p class="brand-tagline">حلول الألومنيوم المتميزة في مصر</p>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i>منتجات ألومنيوم عالية الجودة</li>
+                            <li><i class="fas fa-check"></i>تركيب محترف</li>
+                            <li><i class="fas fa-check"></i>حلول تصميم مخصصة</li>
+                            <li><i class="fas fa-check"></i>أكثر من 8 سنوات من الخبرة</li>
+                            <li><i class="fas fa-check"></i>أكثر من 500 عميل راضٍ</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Right Side -->
+                    <div class="col-lg-7 auth-right">
+                            <form id="signupForm">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="fullName" placeholder="الاسم بالكامل" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <input type="email" class="form-control" name="email" placeholder="البريد الإلكتروني" required>
+                                </div>
+                                                            
+                                <div class="form-group">
+                                    <input type="tel" class="form-control" name="phone" placeholder="رقم الهاتف" required>
+                                </div>
+                                
+                                <div class="form-group position-relative">
+                                    <input type="password" class="form-control" name="password" placeholder="كلمة المرور" required>
+                                    <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="form-group position-relative">
+                                    <input type="password" class="form-control" name="confirmPassword" placeholder="تأكيد كلمة المرور" required>
+                                    <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="terms" required>
+                                    <label class="form-check-label" for="terms">
+                                        أوافق على <a href="#">شروط الخدمة</a> و <a href="#">سياسة الخصوصية</a>
+                                    </label>
+                                </div>
+                                
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="newsletter">
+                                    <label class="form-check-label" for="newsletter">
+                                        اشترك في نشرتنا البريدية للحصول على التحديثات والعروض
+                                    </label>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-user-plus me-2"></i>إنشاء حساب
+                                </button>
+                            </form>
+
+                            <!-- Message containers -->
+                            <div class="success-message" id="signup-success" style="display: none;"></div>
+                            <div class="error-message" id="signup-error" style="display: none;"></div>
+                            
+                            <div class="divider">
+                                <span>أو سجل عن طريق</span>
+                            </div>
+                            
+                            <div class="social-buttons">
+                                <a href="#" class="btn-social">
+                                    <i class="fab fa-google"></i>جوجل
+                                </a>
+                                <a href="#" class="btn-social">
+                                    <i class="fab fa-facebook-f"></i>فيسبوك
+                                </a>
+                            </div>
+                            
+                            <div class="switch-form">
+                                لديك حساب بالفعل؟ <a href="signin-ar.html">سجل الدخول هنا</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Get form values
+        const form = this;
+        const fullName = form.querySelector('input[name="fullName"]').value;
+        const email = form.querySelector('input[name="email"]').value;
+        const phone = form.querySelector('input[name="phone"]').value;
+        const password = form.querySelector('input[name="password"]').value;
+        const confirmPassword = form.querySelector('input[name="confirmPassword"]').value;
+        
+        // Clear previous messages
+        clearMessages();
+        
+        // Validate form
+        if (!validateForm({ fullName, email, phone, password, confirmPassword })) return;
+        
+        try {
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>جاري إنشاء الحساب...';
+            
+            // Debug: Log what we're sending
+            console.log('Sending to backend:', {
+                fullName,
+                email,
+                phone,
+                password,
+                confirmPassword
+            });
+            
+            // Call backend API
+            const response = await fetch('http://localhost:3000/users/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    fullName,
+                    email,
+                    phone,
+                    password,
+                    confirmPassword
+                }),
+            });
+            
+            // Debug: Log raw response
+            console.log('Raw response:', response);
+            
+            const data = await response.json();
+            console.log('Response data:', data);
+            
+            if (!response.ok) {
+                throw new Error(data.message || 'فشل التسجيل مع حالة ' + response.status);
+            }
+            
+            showSuccess(data.message || 'تم إنشاء الحساب بنجاح!');
+            
+            // Redirect after success
+            setTimeout(() => {
+                window.location.href = 'signin-ar.html';
+            }, 2000);
+            
+        } catch (error) {
+            console.error('Full error:', error);
+            showError(error.message || 'فشل إنشاء الحساب. يرجى المحاولة مرة أخرى.');
+        } finally {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-user-plus me-2"></i>إنشاء حساب';
+            }
+        }
+    });
+
+    // Validation functions
+    function validateForm(formData) {
+        // Check required fields
+        if (!formData.fullName || !formData.email || !formData.phone || !formData.password || !formData.confirmPassword) {
+            showError('يرجى ملء جميع الحقول المطلوبة.');
+            return false;
+        }
+        
+        // Validate email format
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            showError('يرجى إدخال عنوان بريد إلكتروني صالح.');
+            return false;
+        }
+        
+        // Check password match
+        if (formData.password !== formData.confirmPassword) {
+            showError('كلمات المرور غير متطابقة.');
+            return false;
+        }
+        
+        // Password strength validation
+        if (formData.password.length < 8) {
+            showError('يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.');
+            return false;
+        }
+        
+        if (!/[A-Z]/.test(formData.password)) {
+            showError('يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل.');
+            return false;
+        }
+        
+        if (!/[a-z]/.test(formData.password)) {
+            showError('يجب أن تحتوي كلمة المرور على حرف صغير واحد على الأقل.');
+            return false;
+        }
+        
+        if (!/[0-9]/.test(formData.password)) {
+            showError('يجب أن تحتوي كلمة المرور على رقم واحد على الأقل.');
+            return false;
+        }
+        
+        if (!/[^A-Za-z0-9]/.test(formData.password)) {
+            showError('يجب أن تحتوي كلمة المرور على حرف خاص واحد على الأقل.');
+            return false;
+        }
+        
+        return true;
+    }
+
+    // Helper functions
+    function clearMessages() {
+        const successMsg = document.getElementById('signup-success');
+        const errorMsg = document.getElementById('signup-error');
+        if (successMsg) successMsg.style.display = 'none';
+        if (errorMsg) errorMsg.style.display = 'none';
+    }
+
+    function showError(message) {
+        let errorMsg = document.getElementById('signup-error');
+        
+        if (!errorMsg) {
+            errorMsg = document.createElement('div');
+            errorMsg.id = 'signup-error';
+            errorMsg.className = 'error-message';
+            const form = document.getElementById('signupForm');
+            form.parentNode.insertBefore(errorMsg, form);
+        }
+        
+        errorMsg.innerHTML = `<i class="fas fa-exclamation-circle me-2"></i>${message}`;
+        errorMsg.style.display = 'block';
+        errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function showSuccess(message) {
+        const successMsg = document.getElementById('signup-success');
+        if (successMsg) {
+            successMsg.innerHTML = `<i class="fas fa-check-circle me-2"></i>${message}`;
+            successMsg.style.display = 'block';
+        }
+    }
+    });
+    </script>
+</body>
+</html>

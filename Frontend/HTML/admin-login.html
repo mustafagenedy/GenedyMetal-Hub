@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login - Genedy Metal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/admin-login.css">
+</head>
+<body>
+    <div class="floating-orbs">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+
+    <div class="admin-container">
+        <div class="top-navigation">
+            <a href="welcome.html" class="back-to-home" aria-label="Back to welcome page">
+                <i class="fas fa-arrow-left"></i>
+                Back to Welcome
+            </a>
+        </div>
+
+        <div class="admin-header">
+            <div class="admin-icon">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <h1 class="admin-title">Admin Access</h1>
+            <p class="admin-subtitle">Secure login for administrators</p>
+        </div>
+
+        <div class="admin-content">
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label for="adminEmail" class="form-label">
+                        <i class="fas fa-envelope me-2"></i>Email Address
+                    </label>
+                    <input type="email" class="form-control" id="adminEmail" placeholder="Enter your admin email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="adminPassword" class="form-label">
+                        <i class="fas fa-lock me-2"></i>Password
+                    </label>
+                    <input type="password" class="form-control" id="adminPassword" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="login-btn" id="loginButton">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span id="buttonText">Sign In</span>
+                </button>
+            </form>
+
+            <div id="loginMessage" class="alert" style="display: none;"></div>
+        </div>
+    </div>
+    <script src="../JS/admin-login.js"></script>
+</body>
+</html>

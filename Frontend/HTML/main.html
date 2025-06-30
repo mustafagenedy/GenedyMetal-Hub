@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Genedy Metal - Premium Aluminum Solutions in Egypt</title>
+    <meta name="keywords" content="aluminum doors, aluminum windows, aluminum kitchens, metal fabrication, Egypt, Giza">
+    <meta name="description" content="Genedy Metal specializes in high-quality aluminum doors, windows, kitchens, and frontages. Professional installation and custom solutions across Egypt.">
+    <meta name="author" content="Genedy Metal">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../CSS/main.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar navbar-expand-lg" >
+            <div class="container">
+                <a class="navbar-brand" href="#home">
+                    <img src="../Assets/b&w logo.png" alt="Genedy Metal Logo">
+                    <span class="brand-text">GENEDY METAL</span>
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#home">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#products">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#gallery">Gallery</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="reservation.html">Reserve a visit</a>
+                        </li>
+                        <li class="nav-item" id="userMenuContainer" style="display: none;">
+                            <div class="dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-user-circle"></i>
+                                    <span id="userName">User</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="user-dashboard.html">
+                                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                                    </a></li>
+                                    <li><a class="dropdown-item" href="user-dashboard.html#reservations">
+                                        <i class="fas fa-calendar-check"></i> My Reservations
+                                    </a></li>
+                                    <li><a class="dropdown-item" href="user-dashboard.html#messages">
+                                        <i class="fas fa-envelope"></i> My Messages
+                                    </a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#" onclick="logout()">
+                                        <i class="fas fa-sign-out-alt"></i> Logout
+                                    </a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item" id="guestMenuContainer">
+                            <a class="btn btn-outline-primary ms-3" href="welcome.html">Welcome</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Frontend/HTML-AR/main-ar.html" class="btn btn-outline-secondary">العربية</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Banner Section -->
+    <section id="home" class="banner_main">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-lg-8">
+                    <div class="banner-content">
+                        <h1>Aluminum Modern Solutions</h1>
+                        <p>At Genedy Metal, we craft high-quality aluminum doors, windows, kitchens, and frontages with precision and style. Serving Egypt with modern solutions since 2015.</p>
+                        <div class="mt-4">
+                            <a href="#about" class="btn btn-primary btn-lg me-3">About Us</a>
+                            <a href="tel:+201234567890" class="btn btn-outline-light btn-lg">
+                                <i class="fas fa-phone me-2"></i>Call Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section section-padding">
+        <div class="container">
+            <div class="section-title">
+                <h2>About Us</h2>
+                <p>At <strong>Genedy Metal</strong>, we specialize in manufacturing high-quality aluminum doors, windows, kitchens, and more. With a focus on durability, modern design, and customer satisfaction, we deliver reliable solutions for homes and businesses across Egypt.</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Excellence in Aluminum Manufacturing</h3>
+                    <p>Since our establishment in 2015, Genedy Metal has been at the forefront of aluminum fabrication in Egypt. We specialize in creating durable, modern, and aesthetically pleasing aluminum products that meet the highest quality standards.</p>
+                    
+                    <ul class="about-features">
+                        <li>Over 8 years of industry experience</li>
+                        <li>Premium quality aluminum materials</li>
+                        <li>Custom design and fabrication services</li>
+                        <li>Professional installation team</li>
+                    </ul>
+                    
+                    <a href="#products" class="btn btn-primary mt-4">View Our Products</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company History Section -->
+    <section class="history-section section-padding">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Journey</h2>
+                <p>Building excellence through years of dedication and expertise</p>
+            </div>
+            
+            <div class="history-content">
+                <div class="history-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h4>8+</h4>
+                    <p>Years of Experience</p>
+                </div>
+                <div class="history-item">
+                    <i class="fas fa-users"></i>
+                    <h4>500+</h4>
+                    <p>Satisfied Customers</p>
+                </div>
+                <div class="history-item">
+                    <i class="fas fa-tools"></i>
+                    <h4>1000+</h4>
+                    <p>Projects Completed</p>
+                </div>
+                <div class="history-item">
+                    <i class="fas fa-award"></i>
+                    <h4>100%</h4>
+                    <p>Quality Guarantee</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="section-padding">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Products</h2>
+                <p>We offer a wide range of aluminum products designed for both residential and commercial use. From sleek doors and windows to modern kitchen units and custom aluminum solutions, our products are built for durability, style, and performance.</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="../Assets/Door.jpg" alt="">
+                        </div>
+                        <div class="product-content">
+                            <h4>Doors</h4>
+                            <span class="product-subtitle">Different types of aluminum doors</span>
+                            <p>High-quality aluminum doors designed for security, durability, and modern aesthetics. Perfect for residential and commercial applications.</p>
+                            <ul class="product-features">
+                                <li>Weather resistant</li>
+                                <li>Security enhanced</li>
+                                <li>Custom designs available</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="../Assets/Window.jpg" alt="">
+                        </div>
+                        <div class="product-content">
+                            <h4>Windows</h4>
+                            <span class="product-subtitle">Different types of aluminum windows</span>
+                            <p>Modern aluminum windows offering excellent thermal performance, sound insulation, and elegant design for any architectural style.</p>
+                            <ul class="product-features">
+                                <li>Energy efficient</li>
+                                <li>Sound insulation</li>
+                                <li>Low maintenance</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="../Assets/Kitchen.jpg" alt="">
+                        </div>
+                        <div class="product-content">
+                            <h4>Kitchens</h4>
+                            <span class="product-subtitle">Different types of aluminum kitchens</span>
+                            <p>Complete aluminum kitchen solutions featuring contemporary designs, optimal storage, and easy maintenance for the modern home.</p>
+                            <ul class="product-features">
+                                <li>Modern designs</li>
+                                <li>Easy to clean</li>
+                                <li>Durable materials</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="../Assets/frontage.jpg" alt="">
+                        </div>
+                        <div class="product-content">
+                            <h4>Frontages</h4>
+                            <span class="product-subtitle">Commercial aluminum solutions</span>
+                            <p>Professional aluminum frontage systems for commercial buildings, offering durability, modern aesthetics, and weather protection.</p>
+                            <ul class="product-features">
+                                <li>Commercial grade</li>
+                                <li>Weather protection</li>
+                                <li>Professional installation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Gallery Section -->
+    <section id="gallery" class="gallery-section section-padding">
+        <div class="container">
+            <div class="section-title">
+                <h2>Custom Manufacturing Portfolio</h2>
+                <p>Explore our diverse range of custom manufactured products, each uniquely designed and crafted to meet our clients' specific requirements and vision.</p>
+            </div>
+
+            <div class="gallery-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="kitchens">Kitchens</button>
+                <button class="filter-btn" data-filter="doors">Doors</button>
+                <button class="filter-btn" data-filter="windows">Windows</button>
+                <button class="filter-btn" data-filter="frontages">Frontages</button>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-item" data-category="kitchens" data-title="Modern Kitchen Design" data-description="Sleek, minimalist design with integrated appliances for a contemporary feel." onclick="openLightbox('kitchens', 0)">
+                    <div class="product-image">
+                        <img src="../Assets/Kitchen.jpg" alt="Modern Kitchen">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">
+                            <h3>Modern Kitchen</h3>
+                            <span class="client-name"><i class="fas fa-user"></i>Client: Homeowner A</span>
+                        </div>
+                        <br>
+                        <span class="project-status status-completed">Completed</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="kitchens" data-title="Modern Kitchen Design" data-description="Sleek, minimalist design with integrated appliances for a contemporary feel." onclick="openLightbox('kitchens', 0)">
+                    <div class="product-image">
+                        <img src="../Assets/Kitchen.jpg" alt="Modern Kitchen">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">
+                            <h3>Modern Kitchen</h3>
+                            <span class="client-name"><i class="fas fa-user"></i>Client: Homeowner A</span>
+                        </div>
+                        <br>
+                        <span class="project-status status-completed">Completed</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="doors" data-title="Elegant Sliding Door" data-description="Custom-made sliding door with privacy glass and a smooth gliding mechanism." onclick="openLightbox('doors', 0)">
+                    <div class="product-image">
+                        <img src="../Assets/Door.jpg" alt="Sliding Door">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">
+                            <h3>Sliding Door</h3>
+                            <span class="client-name"><i class="fas fa-user"></i>Client: Office Building</span>
+                        </div>
+                        <br>
+                        <span class="project-status status-ongoing">Ongoing</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="doors" data-title="Elegant Sliding Door" data-description="Custom-made sliding door with privacy glass and a smooth gliding mechanism." onclick="openLightbox('doors', 1)">
+                    <div class="product-image">
+                        <img src="../Assets/Door.jpg" alt="Sliding Door">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">
+                            <h3>Sliding Door 2</h3>
+                            <span class="client-name"><i class="fas fa-user"></i>Client: Office Building</span>
+                        </div>
+                        <br>
+                        <span class="project-status status-ongoing">Ongoing</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="windows" data-title="Panoramic Window Installation" data-description="Large panoramic windows offering stunning views and excellent insulation." onclick="openLightbox('windows', 0)">
+                    <div class="product-image">
+                        <img src="../Assets/Window.jpg" alt="Panoramic Window">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">
+                            <h3>Panoramic Window</h3>
+                            <span class="client-name"><i class="fas fa-user"></i>Client: Luxury Villa</span>
+                        </div>
+                        <br>
+                        <span class="project-status status-completed">Completed</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="windows" data-title="Panoramic Window Installation" data-description="Large panoramic windows offering stunning views and excellent insulation." onclick="openLightbox('windows', 1)">
+                    <div class="product-image">
+                        <img src="../Assets/Window.jpg" alt="Panoramic Window">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">
+                            <h3>Panoramic Window 2</h3>
+                            <span class="client-name"><i class="fas fa-user"></i>Client: Luxury Villa</span>
+                        </div>
+                        <br>
+                        <span class="project-status status-completed">Completed</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="frontages" data-title="Modern Store Frontage" data-description="Eye-catching and durable store frontage designed to attract customers." onclick="openLightbox('frontages', 0)">
+                    <div class="product-image">
+                        <img src="../Assets/Frontage.jpg" alt="Store Frontage">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">
+                            <h3>Store Frontage</h3>
+                            <span class="client-name"><i class="fas fa-user"></i>Client: Retail Brand</span>
+                        </div>
+                        <br>
+                        <span class="project-status status-completed">Completed</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="frontages" data-title="Modern Store Frontage" data-description="Eye-catching and durable store frontage designed to attract customers." onclick="openLightbox('frontages', 1)">
+                    <div class="product-image">
+                        <img src="../Assets/Frontage.jpg" alt="Store Frontage">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">
+                            <h3>Store Frontage 2</h3>
+                            <span class="client-name"><i class="fas fa-user"></i>Client: Retail Brand</span>
+                        </div>
+                        <br>
+                        <span class="project-status status-completed">Completed</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="frontages" data-title="Modern Store Frontage" data-description="Eye-catching and durable store frontage designed to attract customers." onclick="openLightbox('frontages', 1)">
+                    <div class="product-image">
+                        <img src="../Assets/Frontage.jpg" alt="Store Frontage">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">
+                            <h3>Store Frontage 2</h3>
+                            <span class="client-name"><i class="fas fa-user"></i>Client: Retail Brand</span>
+                        </div>
+                        <br>
+                        <span class="project-status status-completed">Completed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="lightboxModal" class="lightbox-modal">
+        <div class="lightbox-content">
+            <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+            <div class="lightbox-image-wrapper">
+                <img id="lightboxImage" class="lightbox-image" src="" alt="Lightbox Image">
+                <div class="lightbox-nav lightbox-prev" onclick="changeImage(-1)"><i class="fas fa-chevron-left"></i></div>
+                <div class="lightbox-nav lightbox-next" onclick="changeImage(1)"><i class="fas fa-chevron-right"></i></div>
+            </div>
+            <div id="lightboxInfo" class="lightbox-info">
+                <h3 id="lightboxTitle"></h3>
+                <p id="lightboxDescription"></p>
+            </div>
+            <div id="lightboxThumbnails" class="lightbox-gallery-thumbnails">
+                </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section section-padding">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contact Us</h2>
+                <p>Get in touch for your aluminum solution needs</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="contact-form">
+                        <form id="contactForm">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="tel" name="phone" class="form-control" placeholder="Phone Number" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="email" name="email" class="form-control" placeholder="Email Address" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <textarea name="message" class="form-control" rows="5" placeholder="Your Message" required></textarea>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary btn-lg w-100">Send Message</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Address</h4>
+                                <p>Giza - 6 October<br>Egypt</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <h4>Phone</h4>
+                                <p>+201 234 567 890</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <p>info@genedymetal.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Menu Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#products">Our Products</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <ul>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Giza - 6 October, Egypt</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:info@genedymetal.com">info@genedymetal.com</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+201 234 567 890</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 All Rights Reserved. Design by <a href="https://www.linkedin.com/in/mostafa-genidy-9214b82a7" target="_blank">ModernSoftSolutions</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../JS/main.js"></script>
+</body>
+</html>

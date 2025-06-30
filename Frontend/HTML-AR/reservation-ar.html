@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>احجز زيارتك</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/reservation.css">
+</head>
+<body>
+    <div class="floating-orbs">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+
+    <div class="reservation-container">
+        <div class="reservation-header">
+            <a href="main-ar.html" class="back-button">
+                <i class="fas fa-arrow-right"></i>
+                العودة للرئيسية
+            </a>
+            
+            <div class="header-icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            
+            <h1 class="reservation-title">احجز زيارتك</h1>
+            <p class="reservation-subtitle">املأ النموذج أدناه وسنتواصل معك لتأكيد الموعد</p>
+        </div>
+
+        <div class="form-container">
+            <form id="reservationForm" class="reservation-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="fullName" class="form-label">الاسم الكامل *</label>
+                        <input
+                            type="text"
+                            id="fullName"
+                            name="fullName"
+                            class="form-input"
+                            placeholder="أدخل اسمك الكامل"
+                            required
+                        >
+                        <i class="fas fa-user form-icon"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone" class="form-label">رقم الهاتف *</label>
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            class="form-input"
+                            placeholder="أدخل رقم هاتفك"
+                            required
+                        >
+                        <i class="fas fa-phone form-icon"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">البريد الإلكتروني *</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="form-input"
+                            placeholder="أدخل بريدك الإلكتروني"
+                            required
+                        >
+                        <i class="fas fa-envelope form-icon"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="visitType" class="form-label">نوع الزيارة *</label>
+                        <select id="visitType" name="visitType" class="form-select" required>
+                            <option value="">اختر نوع الزيارة</option>
+                            <option value="consultation">استشارة</option>
+                            <option value="follow-up">متابعة</option>
+                            <option value="emergency">طارئة</option>
+                            <option value="routine">فحص روتيني</option>
+                            <option value="other">أخرى</option>
+                        </select>
+                        <i class="fas fa-list form-icon"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preferredDate" class="form-label">التاريخ المفضل</label>
+                        <input 
+                            type="date" 
+                            id="preferredDate" 
+                            name="preferredDate" 
+                            class="form-input"
+                        >
+                        <i class="fas fa-calendar form-icon"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preferredTime" class="form-label">الوقت المفضل</label>
+                        <select id="preferredTime" name="preferredTime" class="form-select">
+                            <option value="">اختر الوقت المفضل</option>
+                            <option value="morning">الصباح (9:00 ص - 12:00 م)</option>
+                            <option value="afternoon">الظهيرة (1:00 م - 5:00 م)</option>
+                            <option value="evening">المساء (6:00 م - 8:00 م)</option>
+                        </select>
+                        <i class="fas fa-clock form-icon"></i>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="address" class="form-label">العنوان</label>
+                        <input 
+                            type="text" 
+                            id="address" 
+                            name="address" 
+                            class="form-input" 
+                            placeholder="أدخل عنوانك"
+                        >
+                        <i class="fas fa-map-marker-alt form-icon"></i>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="notes" class="form-label">ملاحظات إضافية</label>
+                        <textarea 
+                            id="notes" 
+                            name="notes" 
+                            class="form-textarea" 
+                            placeholder="أي معلومات إضافية أو طلبات خاصة..."
+                        ></textarea>
+                    </div>
+                </div>
+
+                <div class="submit-section">
+                    <button type="submit" class="submit-button">
+                        <span class="button-text">
+                            <i class="fas fa-paper-plane" style="margin-left: 8px;"></i>
+                            إرسال الطلب
+                        </span>
+                        <div class="button-loader">
+                            <div class="loader"></div>
+                        </div>
+                    </button>
+                    
+                    <div id="formMessage" class="form-message"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="../JS/reservation.js"></script>
+</body>
+</html>

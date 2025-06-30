@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>جنيدي ميتال - تسجيل الدخول</title>
+    <meta name="keywords" content="أبواب ألمنيوم، نوافذ ألمنيوم، مطابخ ألمنيوم، تشكيل المعادن، مصر، الجيزة">
+    <meta name="description" content="سجّل دخولك إلى جنيدي ميتال للوصول الحصري إلى حلول الألمنيوم المتميزة.">
+    <meta name="author" content="جنيدي ميتال">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <!-- CSS File -->
+    <link rel="stylesheet" href="../CSS/index.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="auth-container row g-0">
+                    <!-- Left Side -->
+                    <div class="col-lg-5 auth-left">
+                        <a href="welcome-ar.html" class="back-to-home">
+                            <i class="fas fa-arrow-right"></i>
+                            العودة
+                        </a>
+                        
+                        <div class="brand-logo">
+                            <h2>جنيدي ميتال</h2>
+                        </div>
+                        
+                        <p class="brand-tagline">حلول ألمنيوم متميزة في مصر</p>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i>منتجات ألمنيوم عالية الجودة</li>
+                            <li><i class="fas fa-check"></i>تركيب احترافي</li>
+                            <li><i class="fas fa-check"></i>تصميمات مخصصة</li>
+                            <li><i class="fas fa-check"></i>أكثر من 8 سنوات خبرة</li>
+                            <li><i class="fas fa-check"></i>500+ عميل راضٍ</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Right Side -->
+                    <div class="col-lg-7 auth-right">
+                        <!-- Sign In Form -->
+                        <div id="signin-form" class="auth-form active">
+                            <h2 class="form-title">مرحباً بعودتك</h2>
+                            <p class="form-subtitle">قم بتسجيل الدخول للوصول إلى حسابك واستكشاف حلول الألمنيوم المتميزة</p>
+                            
+                            <div class="success-message" id="signin-success">
+                                <i class="fas fa-check-circle ms-2"></i>
+                                تم تسجيل الدخول بنجاح! جارٍ التحويل...
+                            </div>
+                            
+                            <div class="error-message" id="signin-error" style="display: none;">
+                                <i class="fas fa-exclamation-circle ms-2"></i>
+                                <span id="error-text"></span>
+                            </div>
+                            
+                            <form id="signinForm">
+                                <div class="form-group">
+                                    <input type="email" class="form-control" name="email" placeholder="البريد الإلكتروني" required>
+                                </div>
+                                
+                                <div class="form-group position-relative">
+                                    <input type="password" class="form-control" name="password" placeholder="كلمة المرور" required>
+                                    <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                                    <label class="form-check-label" for="remember">
+                                        تذكرني لمدة 30 يومًا
+                                    </label>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-sign-in-alt ms-2"></i>تسجيل الدخول
+                                </button>
+                            </form>
+                            
+                            <div class="divider">
+                                <span>أو تابع باستخدام</span>
+                            </div>
+                            
+                            <div class="social-buttons">
+                                <a href="#" class="btn-social">
+                                    <i class="fab fa-google"></i>جوجل
+                                </a>
+                                <a href="#" class="btn-social">
+                                    <i class="fab fa-facebook-f"></i>فيسبوك
+                                </a>
+                            </div>
+                            
+                            <div class="switch-form">
+                                ليس لديك حساب؟ <a href="signup-ar.html">أنشئ حساباً من هنا</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+    // Password visibility toggle
+    function togglePassword(button) {
+        const input = button.parentElement.querySelector('input');
+        const icon = button.querySelector('i');
+        
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
+    // SIGN IN FORM HANDLER - UPDATED TO CONNECT WITH BACKEND
+    document.getElementById('signinForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = this.querySelector('input[name="email"]').value.trim();
+        const password = this.querySelector('input[name="password"]').value;
+        const rememberMe = this.querySelector('#remember').checked;
+
+        document.getElementById('signin-success').style.display = 'none';
+        document.getElementById('signin-error').style.display = 'none';
+
+        if (!email || !password) {
+            showError('يرجى ملء جميع الحقول المطلوبة.');
+            return;
+        }
+
+        try {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ms-2"></i>جاري تسجيل الدخول...';
+
+            const response = await fetch('http://localhost:3000/users/signin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'فشل تسجيل الدخول. يرجى التحقق من البيانات.');
+            }
+
+            if (rememberMe) {
+                localStorage.setItem('userToken', data.token);
+                if (data.user) localStorage.setItem('currentUser', JSON.stringify(data.user));
+            } else {
+                sessionStorage.setItem('userToken', data.token);
+                if (data.user) sessionStorage.setItem('currentUser', JSON.stringify(data.user));
+            }
+
+            document.getElementById('signin-success').style.display = 'block';
+
+            if (data.user && data.user.role === 'admin') {
+                setTimeout(() => {
+                    window.location.href = 'admin.html';
+                }, 1000);
+            } else {
+                setTimeout(() => {
+                    window.location.href = 'user-dashboard-ar.html';
+                }, 1000);
+            }
+
+        } catch (error) {
+            showError(error.message);
+        } finally {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-sign-in-alt ms-2"></i>تسجيل الدخول';
+            }
+        }
+    });
+
+    function showError(message) {
+        const errorMsg = document.getElementById('signin-error');
+        const errorText = document.getElementById('error-text');
+        errorText.textContent = message;
+        errorMsg.style.display = 'block';
+    }
+    </script>
+</body>
+</html>

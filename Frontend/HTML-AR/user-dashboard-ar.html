@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>لوحة تحكم المستخدم - جنيدي ميتال</title>
+    <meta name="keywords" content="لوحة تحكم المستخدم, حلول الألومنيوم, مصر, الجيزة">
+    <meta name="description" content="إدارة حسابك، عرض الرسائل والحجوزات في جنيدي ميتال.">
+    <meta name="author" content="جنيدي ميتال">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Arabic Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../CSS/user-dashboard.css">
+    <style>
+        body {
+            font-family: 'Cairo', 'Tajawal', sans-serif !important;
+        }
+        .navbar-brand, .brand-text {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="main-ar.html">
+                    <img src="../Assets/b&w logo.png" alt="شعار جنيدي ميتال">
+                    <span class="brand-text">جنيدي ميتال</span>
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="main-ar.html">الرئيسية</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="main-ar.html#about">من نحن</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="main-ar.html#products">المنتجات</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="main-ar.html#gallery">المعرض</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="main-ar.html#contact">اتصل بنا</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="reservation-ar.html">احجز زيارة</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle"></i>
+                                <span id="userName">المستخدم</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="showSection('profile')">
+                                    <i class="fas fa-user"></i> الملف الشخصي
+                                </a></li>
+                                <li><a class="dropdown-item" href="#" onclick="showSection('reservations')">
+                                    <i class="fas fa-calendar-check"></i> حجوزاتي
+                                </a></li>
+                                <li><a class="dropdown-item" href="#" onclick="showSection('messages')">
+                                    <i class="fas fa-envelope"></i> رسائلي
+                                </a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" onclick="logout()">
+                                    <i class="fas fa-sign-out-alt"></i> تسجيل خروج
+                                </a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Welcome Section -->
+            <div class="welcome-section" id="welcomeSection">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h1 class="welcome-title">أهلاً بعودتك، <span id="welcomeUserName">المستخدم</span>!</h1>
+                        <p class="welcome-subtitle">إدارة حسابك، عرض حجوزاتك ورسائلك، وابق على اطلاع دائم برحلتك مع حلول الألومنيوم.</p>
+                    </div>
+                    <div class="col-lg-4 text-end">
+                        <div class="user-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="stats-section">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="totalReservations">0</h3>
+                                <p>إجمالي الحجوزات</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="totalMessages">0</h3>
+                                <p>الرسائل المرسلة</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="pendingReservations">0</h3>
+                                <p>الطلبات المعلقة</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="dashboard-nav">
+                <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab">
+                            <i class="fas fa-user"></i> الملف الشخصي
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="reservations-tab" data-bs-toggle="tab" data-bs-target="#reservations" type="button" role="tab">
+                            <i class="fas fa-calendar-check"></i> حجوزاتي
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="messages-tab" data-bs-toggle="tab" data-bs-target="#messages" type="button" role="tab">
+                            <i class="fas fa-envelope"></i> رسائلي
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="dashboardTabContent">
+                <!-- Profile Tab -->
+                <div class="tab-pane fade show active" id="profile" role="tabpanel">
+                    <div class="profile-section">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="profile-card">
+                                    <h3>معلومات الملف الشخصي</h3>
+                                    <form id="profileForm">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>الاسم الكامل</label>
+                                                    <input type="text" class="form-control" id="profileName" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>البريد الإلكتروني</label>
+                                                    <input type="email" class="form-control" id="profileEmail" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>رقم الهاتف</label>
+                                                    <input type="tel" class="form-control" id="profilePhone" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>عضو منذ</label>
+                                                    <input type="text" class="form-control" id="profileJoinDate" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="form-actions">
+                                            <button type="button" class="btn btn-primary" onclick="editProfile()">
+                                                <i class="fas fa-edit"></i> تعديل الملف الشخصي
+                                            </button>
+                                            <button type="button" class="btn btn-outline-secondary" onclick="changePassword()">
+                                                <i class="fas fa-key"></i> تغيير كلمة المرور
+                                            </button>
+                                        </div> -->
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="quick-actions-card">
+                                    <h4>الإجراءات السريعة</h4>
+                                    <div class="quick-actions">
+                                        <a href="reservation-ar.html" class="quick-action-btn">
+                                            <i class="fas fa-plus"></i>
+                                            حجز جديد
+                                        </a>
+                                        <a href="main-ar.html#contact" class="quick-action-btn">
+                                            <i class="fas fa-envelope"></i>
+                                            إرسال رسالة
+                                        </a>
+                                        <a href="main-ar.html#products" class="quick-action-btn">
+                                            <i class="fas fa-eye"></i>
+                                            عرض المنتجات
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reservations Tab -->
+                <div class="tab-pane fade" id="reservations" role="tabpanel">
+                    <div class="reservations-section">
+                        <div class="section-header">
+                            <h3>حجوزاتي</h3>
+                            <a href="reservation-ar.html" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> حجز جديد
+                            </a>
+                        </div>
+                        
+                        <div class="filter-section">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-outline-primary active" data-filter="all">الكل</button>
+                                <button type="button" class="btn btn-outline-warning" data-filter="pending">معلق</button>
+                                <button type="button" class="btn btn-outline-success" data-filter="confirmed">مؤكد</button>
+                                <button type="button" class="btn btn-outline-danger" data-filter="cancelled">ملغي</button>
+                            </div>
+                        </div>
+
+                        <div class="reservations-list" id="userReservationsList">
+                            <!-- الحجوزات ستظهر هنا -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Messages Tab -->
+                <div class="tab-pane fade" id="messages" role="tabpanel">
+                    <div class="messages-section">
+                        <div class="section-header">
+                            <h3>رسائلي</h3>
+                            <a href="main-ar.html#contact" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> إرسال رسالة جديدة
+                            </a>
+                        </div>
+
+                        <div class="messages-list" id="userMessagesList">
+                            <!-- الرسائل ستظهر هنا -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>روابط القائمة</h4>
+                    <ul>
+                        <li><a href="main-ar.html">الرئيسية</a></li>
+                        <li><a href="main-ar.html#about">من نحن</a></li>
+                        <li><a href="main-ar.html#products">منتجاتنا</a></li>
+                        <li><a href="main-ar.html#gallery">المعرض</a></li>
+                        <li><a href="main-ar.html#contact">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>معلومات الاتصال</h4>
+                    <ul>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>الجيزة - 6 أكتوبر، مصر</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:info@genedymetal.com">info@genedymetal.com</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+201 234 567 890</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>تابعنا</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 جميع الحقوق محفوظة. تصميم <a href="https://www.linkedin.com/in/mostafa-genidy-9214b82a7" target="_blank">ModernSoftSolutions</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../JS/user-dashboard.js"></script>
+</body>
+</html>

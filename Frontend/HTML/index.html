@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Genedy Metal - Sign In / Sign Up</title>
+    <meta name="keywords" content="aluminum doors, aluminum windows, aluminum kitchens, metal fabrication, Egypt, Giza">
+    <meta name="description" content="Sign in or sign up to Genedy Metal for exclusive access to premium aluminum solutions.">
+    <meta name="author" content="Genedy Metal">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <!-- CSS File -->
+    <link rel="stylesheet" href="../CSS/index.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="auth-container row g-0">
+                    <!-- Left Side -->
+                    <div class="col-lg-5 auth-left">
+                        <a href="main.html" class="back-to-home">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to Home
+                        </a>
+                        
+                        <div class="brand-logo">
+                            <h2>GENEDY METAL</h2>
+                        </div>
+                        
+                        <p class="brand-tagline">Premium Aluminum Solutions in Egypt</p>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i>High-Quality Aluminum Products</li>
+                            <li><i class="fas fa-check"></i>Professional Installation</li>
+                            <li><i class="fas fa-check"></i>Custom Design Solutions</li>
+                            <li><i class="fas fa-check"></i>8+ Years of Experience</li>
+                            <li><i class="fas fa-check"></i>500+ Satisfied Customers</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Right Side -->
+                    <div class="col-lg-7 auth-right">
+                        <!-- Sign In Form -->
+                        <div id="signin-form" class="auth-form active">
+                            <h2 class="form-title">Welcome Back</h2>
+                            <p class="form-subtitle">Sign in to access your account and explore our premium aluminum solutions</p>
+                            
+                            <div class="success-message" id="signin-success">
+                                <i class="fas fa-check-circle me-2"></i>
+                                Sign in successful! Redirecting...
+                            </div>
+                            
+                            <form id="signinForm">
+                                <div class="form-group">
+                                    <input type="email" class="form-control" placeholder="Email Address" required>
+                                </div>
+                                
+                                <div class="form-group position-relative">
+                                    <input type="password" class="form-control" placeholder="Password" required>
+                                    <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="remember">
+                                    <label class="form-check-label" for="remember">
+                                        Remember me for 30 days
+                                    </label>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                                </button>
+                            </form>
+                            
+                            <div class="divider">
+                                <span>or continue with</span>
+                            </div>
+                            
+                            <div class="social-buttons">
+                                <a href="#" class="btn-social">
+                                    <i class="fab fa-google"></i>Google
+                                </a>
+                                <a href="#" class="btn-social">
+                                    <i class="fab fa-facebook-f"></i>Facebook
+                                </a>
+                            </div>
+                            
+                            <div class="switch-form">
+                                Don't have an account? <a onclick="switchToSignup()">Sign up here</a>
+                            </div>
+                        </div>
+                        
+                        <!-- Sign Up Form -->
+                        <div id="signup-form" class="auth-form">
+                            <h2 class="form-title">Create Account</h2>
+                            <p class="form-subtitle">Join Genedy Metal family and get access to exclusive aluminum solutions</p>
+                            
+                            <div class="success-message" id="signup-success">
+                                <i class="fas fa-check-circle me-2"></i>
+                                Account created successfully! Please check your email to verify.
+                            </div>
+                            
+                            <form id="signupForm">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="First Name" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Last Name" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <input type="email" class="form-control" placeholder="Email Address" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <input type="tel" class="form-control" placeholder="Phone Number" required>
+                                </div>
+                                
+                                <div class="form-group position-relative">
+                                    <input type="password" class="form-control" placeholder="Password" required>
+                                    <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="form-group position-relative">
+                                    <input type="password" class="form-control" placeholder="Confirm Password" required>
+                                    <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="terms" required>
+                                    <label class="form-check-label" for="terms">
+                                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                                    </label>
+                                </div>
+                                
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="newsletter">
+                                    <label class="form-check-label" for="newsletter">
+                                        Subscribe to our newsletter for updates and offers
+                                    </label>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-user-plus me-2"></i>Create Account
+                                </button>
+                            </form>
+                            
+                            <div class="divider">
+                                <span>or sign up with</span>
+                            </div>
+                            
+                            <div class="social-buttons">
+                                <a href="#" class="btn-social">
+                                    <i class="fab fa-google"></i>Google
+                                </a>
+                                <a href="#" class="btn-social">
+                                    <i class="fab fa-facebook-f"></i>Facebook
+                                </a>
+                            </div>
+                            
+                            <div class="switch-form">
+                                Already have an account? <a onclick="switchToSignin()">Sign in here</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+// Form switching functionality
+function switchToSignup() {
+    document.getElementById('signin-form').classList.remove('active');
+    document.getElementById('signup-form').classList.add('active');
+}
+
+function switchToSignin() {
+    document.getElementById('signup-form').classList.remove('active');
+    document.getElementById('signin-form').classList.add('active');
+}
+
+// Password visibility toggle
+function togglePassword(button) {
+    const input = button.parentElement.querySelector('input');
+    const icon = button.querySelector('i');
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+}
+
+// SIGN IN FORM HANDLER
+document.getElementById('signinForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Get form values
+    const email = this.querySelector('input[type="email"]').value;
+    const password = this.querySelector('input[type="password"]').value;
+    const rememberMe = this.querySelector('#remember').checked;
+    
+    // Basic validation
+    if (!email || !password) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+    
+    // Show success message
+    const successMsg = document.getElementById('signin-success');
+    successMsg.style.display = 'block';
+    
+    // Store authentication data in browser
+    localStorage.setItem('genedy_auth_token', 'authenticated_' + Date.now());
+    localStorage.setItem('genedy_login_time', Date.now().toString());
+    localStorage.setItem('genedy_remember_me', rememberMe.toString());
+    localStorage.setItem('genedy_user_email', email);
+    
+    // Redirect to main website after 2 seconds
+    setTimeout(() => {
+        window.location.href = 'main.html';
+    }, 2000);
+});
+
+// SIGN UP FORM HANDLER
+document.getElementById('signupForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Get all form values
+    const firstName = this.querySelector('input[placeholder="First Name"]').value;
+    const lastName = this.querySelector('input[placeholder="Last Name"]').value;
+    const email = this.querySelector('input[type="email"]').value;
+    const phone = this.querySelector('input[type="tel"]').value;
+    const password = this.querySelector('input[placeholder="Password"]').value;
+    const confirmPassword = this.querySelector('input[placeholder="Confirm Password"]').value;
+    const terms = this.querySelector('#terms').checked;
+    
+    // Validation checks
+    if (!firstName || !lastName || !email || !phone || !password || !confirmPassword) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+    
+    if (password !== confirmPassword) {
+        alert('Passwords do not match.');
+        return;
+    }
+    
+    if (password.length < 6) {
+        alert('Password must be at least 6 characters long.');
+        return;
+    }
+    
+    if (!terms) {
+        alert('Please agree to the Terms of Service and Privacy Policy.');
+        return;
+    }
+    
+    // Show success message
+    const successMsg = document.getElementById('signup-success');
+    successMsg.style.display = 'block';
+    
+    // Store authentication data
+    localStorage.setItem('genedy_auth_token', 'authenticated_' + Date.now());
+    localStorage.setItem('genedy_login_time', Date.now().toString());
+    localStorage.setItem('genedy_remember_me', 'false');
+    localStorage.setItem('genedy_user_email', email);
+    localStorage.setItem('genedy_user_name', firstName + ' ' + lastName);
+    
+    // Redirect to main website after 3 seconds
+    setTimeout(() => {
+        window.location.href = 'main.html';
+    }, 3000);
+});
+        // Add some interactive effects
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('focused');
+                if (this.value.trim() === '') {
+                    this.classList.remove('valid');
+                } else {
+                    this.classList.add('valid');
+                }
+            });
+        });
+
+        // Smooth animations
+        window.addEventListener('load', function() {
+            document.querySelector('.auth-container').style.opacity = '0';
+            document.querySelector('.auth-container').style.transform = 'translateY(30px)';
+            
+            setTimeout(() => {
+                document.querySelector('.auth-container').style.transition = 'all 0.6s ease';
+                document.querySelector('.auth-container').style.opacity = '1';
+                document.querySelector('.auth-container').style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Visit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/reservation.css">
+</head>
+<body>
+    <div class="floating-orbs">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+
+    <div class="reservation-container">
+        <div class="reservation-header">
+            <a href="main.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+                Back to Home
+            </a>
+            
+            <div class="header-icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            
+            <h1 class="reservation-title">Book Your Visit</h1>
+            <p class="reservation-subtitle">Fill out the form below and we'll contact you to confirm your appointment</p>
+        </div>
+
+        <div class="form-container">
+            <form id="reservationForm" class="reservation-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="fullName" class="form-label">Full Name *</label>
+                        <input
+                            type="text"
+                            id="fullName"
+                            name="fullName"
+                            class="form-input"
+                            placeholder="Enter your full name"
+                            required
+                        >
+                        <i class="fas fa-user form-icon"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Phone Number *</label>
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            class="form-input"
+                            placeholder="Enter your phone number"
+                            required
+                        >
+                        <i class="fas fa-phone form-icon"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address *</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="form-input"
+                            placeholder="Enter your email address"
+                            required
+                        >
+                        <i class="fas fa-envelope form-icon"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="visitType" class="form-label">Visit Type *</label>
+                        <select id="visitType" name="visitType" class="form-select" required>
+                            <option value="">Select visit type</option>
+                            <option value="consultation">Consultation</option>
+                            <option value="follow-up">Follow-up</option>
+                            <option value="emergency">Emergency</option>
+                            <option value="routine">Routine Check</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <i class="fas fa-list form-icon"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preferredDate" class="form-label">Preferred Date</label>
+                        <input 
+                            type="date" 
+                            id="preferredDate" 
+                            name="preferredDate" 
+                            class="form-input"
+                        >
+                        <i class="fas fa-calendar form-icon"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preferredTime" class="form-label">Preferred Time</label>
+                        <select id="preferredTime" name="preferredTime" class="form-select">
+                            <option value="">Select preferred time</option>
+                            <option value="morning">Morning (9:00 AM - 12:00 PM)</option>
+                            <option value="afternoon">Afternoon (1:00 PM - 5:00 PM)</option>
+                            <option value="evening">Evening (6:00 PM - 8:00 PM)</option>
+                        </select>
+                        <i class="fas fa-clock form-icon"></i>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="address" class="form-label">Address</label>
+                        <input 
+                            type="text" 
+                            id="address" 
+                            name="address" 
+                            class="form-input" 
+                            placeholder="Enter your address"
+                        >
+                        <i class="fas fa-map-marker-alt form-icon"></i>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="notes" class="form-label">Additional Notes</label>
+                        <textarea 
+                            id="notes" 
+                            name="notes" 
+                            class="form-textarea" 
+                            placeholder="Any additional information or special requests..."
+                        ></textarea>
+                    </div>
+                </div>
+
+                <div class="submit-section">
+                    <button type="submit" class="submit-button">
+                        <span class="button-text">
+                            <i class="fas fa-paper-plane" style="margin-right: 8px;"></i>
+                            Submit Request
+                        </span>
+                        <div class="button-loader">
+                            <div class="loader"></div>
+                        </div>
+                    </button>
+                    
+                    <div id="formMessage" class="form-message"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="../JS/reservation.js"></script>
+</body>
+</html>

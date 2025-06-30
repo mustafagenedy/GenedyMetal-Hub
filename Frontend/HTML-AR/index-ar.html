@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>جنيدي ميتال - تسجيل / إنشاء حساب</title>
+    <meta name="keywords" content="أبواب ألمنيوم، نوافذ ألمنيوم، مطابخ ألمنيوم، تصنيع المعادن، مصر، الجيزة">
+    <meta name="description" content="سجّل الدخول أو أنشئ حسابك في جنيدي ميتال للوصول الحصري إلى حلول الألمنيوم المميزة.">
+    <meta name="author" content="جنيدي ميتال">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/index.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="auth-container row g-0">
+                    <div class="col-lg-5 auth-left">
+                        <a href="main-ar.html" class="back-to-home">
+                            <i class="fas fa-arrow-right"></i>
+                            العودة إلى الصفحة الرئيسية
+                        </a>
+                        <div class="brand-logo">
+                            <h2>جنيدي ميتال</h2>
+                        </div>
+                        <p class="brand-tagline">حلول ألمنيوم مميزة في مصر</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i>منتجات ألمنيوم عالية الجودة</li>
+                            <li><i class="fas fa-check"></i>تركيب احترافي</li>
+                            <li><i class="fas fa-check"></i>تصميمات حسب الطلب</li>
+                            <li><i class="fas fa-check"></i>أكثر من 8 سنوات خبرة</li>
+                            <li><i class="fas fa-check"></i>أكثر من 500 عميل راضٍ</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-7 auth-right">
+                        <div id="signin-form" class="auth-form active">
+                            <h2 class="form-title">مرحبًا بعودتك</h2>
+                            <p class="form-subtitle">سجّل الدخول للوصول إلى حسابك واستكشاف حلول الألمنيوم المميزة</p>
+                            <div class="success-message" id="signin-success">
+                                <i class="fas fa-check-circle me-2"></i>
+                                تم تسجيل الدخول بنجاح! جاري التحويل...
+                            </div>
+                            <form id="signinForm">
+                                <div class="form-group">
+                                    <input type="email" class="form-control" placeholder="البريد الإلكتروني" required>
+                                </div>
+                                <div class="form-group position-relative">
+                                    <input type="password" class="form-control" placeholder="كلمة المرور" required>
+                                    <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="remember">
+                                    <label class="form-check-label" for="remember">
+                                        تذكرني لمدة 30 يومًا
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-sign-in-alt me-2"></i>تسجيل الدخول
+                                </button>
+                            </form>
+                            <div class="divider">
+                                <span>أو تابع باستخدام</span>
+                            </div>
+                            <div class="social-buttons">
+                                <a href="#" class="btn-social">
+                                    <i class="fab fa-google"></i>جوجل
+                                </a>
+                                <a href="#" class="btn-social">
+                                    <i class="fab fa-facebook-f"></i>فيسبوك
+                                </a>
+                            </div>
+                            <div class="switch-form">
+                                ليس لديك حساب؟ <a href="#" onclick="switchToSignup()">أنشئ حسابك هنا</a>
+                            </div>
+                        </div>
+                        <div id="signup-form" class="auth-form">
+                            <h2 class="form-title">إنشاء حساب</h2>
+                            <p class="form-subtitle">انضم إلى عائلة جنيدي ميتال وتمتع بحلول الألمنيوم الحصرية</p>
+                            <div class="success-message" id="signup-success">
+                                <i class="fas fa-check-circle me-2"></i>
+                                تم إنشاء الحساب بنجاح! يرجى التحقق من بريدك الإلكتروني.
+                            </div>
+                            <form id="signupForm">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="الاسم الأول" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="اسم العائلة" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" class="form-control" placeholder="البريد الإلكتروني" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="tel" class="form-control" placeholder="رقم الهاتف" required>
+                                </div>
+                                <div class="form-group position-relative">
+                                    <input type="password" class="form-control" placeholder="كلمة المرور" required>
+                                    <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="form-group position-relative">
+                                    <input type="password" class="form-control" placeholder="تأكيد كلمة المرور" required>
+                                    <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="terms" required>
+                                    <label class="form-check-label" for="terms">
+                                        أوافق على <a href="#">شروط الاستخدام</a> و <a href="#">سياسة الخصوصية</a>
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="newsletter">
+                                    <label class="form-check-label" for="newsletter">
+                                        اشترك في النشرة البريدية للحصول على التحديثات والعروض
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-user-plus me-2"></i>إنشاء الحساب
+                                </button>
+                            </form>
+                            <div class="divider">
+                                <span>أو أنشئ بواسطة</span>
+                            </div>
+                            <div class="social-buttons">
+                                <a href="#" class="btn-social">
+                                    <i class="fab fa-google"></i>جوجل
+                                </a>
+                                <a href="#" class="btn-social">
+                                    <i class="fab fa-facebook-f"></i>فيسبوك
+                                </a>
+                            </div>
+                            <div class="switch-form">
+                                لديك حساب بالفعل؟ <a href="#" onclick="switchToSignin()">سجّل الدخول هنا</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+    // Form switching functionality
+    function switchToSignup() {
+        document.getElementById('signin-form').classList.remove('active');
+        document.getElementById('signup-form').classList.add('active');
+    }
+    function switchToSignin() {
+        document.getElementById('signup-form').classList.remove('active');
+        document.getElementById('signin-form').classList.add('active');
+    }
+    function togglePassword(button) {
+        const input = button.parentElement.querySelector('input');
+        const icon = button.querySelector('i');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+    // SIGN IN FORM HANDLER
+    document.getElementById('signinForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const email = this.querySelector('input[type="email"]').value.trim();
+        const password = this.querySelector('input[type="password"]').value;
+        const rememberMe = this.querySelector('#remember').checked;
+        if (!email || !password) {
+            alert('يرجى ملء جميع الحقول المطلوبة.');
+            return;
+        }
+        const submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>جاري تسجيل الدخول...';
+        const successMsg = document.getElementById('signin-success');
+        successMsg.style.display = 'none';
+        try {
+            const response = await fetch('http://localhost:3000/users/signin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.message || 'فشل تسجيل الدخول. يرجى التحقق من البيانات.');
+            }
+            if (rememberMe) {
+                localStorage.setItem('userToken', data.token);
+                if (data.user) localStorage.setItem('currentUser', JSON.stringify(data.user));
+            } else {
+                sessionStorage.setItem('userToken', data.token);
+                if (data.user) sessionStorage.setItem('currentUser', JSON.stringify(data.user));
+            }
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                if (data.user && data.user.role === 'admin') {
+                    window.location.href = 'main-ar.html';
+                } else {
+                    window.location.href = 'main-ar.html';
+                }
+            }, 1200);
+        } catch (error) {
+            alert(error.message || 'حدث خطأ أثناء تسجيل الدخول.');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>تسجيل الدخول';
+        }
+    });
+    // SIGN UP FORM HANDLER
+    document.getElementById('signupForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const firstName = this.querySelectorAll('input[type="text"]')[0].value.trim();
+        const lastName = this.querySelectorAll('input[type="text"]')[1].value.trim();
+        const fullName = firstName + ' ' + lastName;
+        const email = this.querySelector('input[type="email"]').value.trim();
+        const phone = this.querySelector('input[type="tel"]').value.trim();
+        const password = this.querySelectorAll('input[type="password"]')[0].value;
+        const confirmPassword = this.querySelectorAll('input[type="password"]')[1].value;
+        const terms = this.querySelector('#terms').checked;
+        if (!firstName || !lastName || !email || !phone || !password || !confirmPassword) {
+            alert('يرجى ملء جميع الحقول المطلوبة.');
+            return;
+        }
+        if (password !== confirmPassword) {
+            alert('كلمتا المرور غير متطابقتين.');
+            return;
+        }
+        if (password.length < 6) {
+            alert('يجب أن تتكون كلمة المرور من 6 أحرف على الأقل.');
+            return;
+        }
+        if (!terms) {
+            alert('يجب الموافقة على شروط الاستخدام وسياسة الخصوصية.');
+            return;
+        }
+        const submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>جاري إنشاء الحساب...';
+        const successMsg = document.getElementById('signup-success');
+        successMsg.style.display = 'none';
+        try {
+            const response = await fetch('http://localhost:3000/users/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ fullName, email, phone, password }),
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.message || 'فشل إنشاء الحساب. يرجى التحقق من البيانات.');
+            }
+            localStorage.setItem('userToken', data.token);
+            if (data.user) localStorage.setItem('currentUser', JSON.stringify(data.user));
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                window.location.href = 'main-ar.html';
+            }, 1500);
+        } catch (error) {
+            alert(error.message || 'حدث خطأ أثناء إنشاء الحساب.');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-user-plus me-2"></i>إنشاء الحساب';
+        }
+    });
+    </script>
+</body>
+</html>
