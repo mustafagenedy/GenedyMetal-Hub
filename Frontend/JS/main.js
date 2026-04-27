@@ -247,7 +247,11 @@ function initializeContactForm() {
                         showNotification('Message sent successfully! We will get back to you soon.', 'success');
                         contactForm.reset();
                     } else {
-                        throw new Error(result.message || 'Failed to send message');
+                        let msg = result.message || 'Failed to send message';
+                        if (Array.isArray(result.errors) && result.errors.length) {
+                            msg += ': ' + result.errors.join('; ');
+                        }
+                        throw new Error(msg);
                     }
                 } catch (error) {
                     console.error('Error sending message:', error);

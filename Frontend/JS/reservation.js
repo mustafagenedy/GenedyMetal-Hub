@@ -48,7 +48,11 @@
                         successCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 } else {
-                    throw new Error(result.message || 'Submission failed');
+                    let msg = result.message || 'Submission failed';
+                    if (Array.isArray(result.errors) && result.errors.length) {
+                        msg += ': ' + result.errors.join('; ');
+                    }
+                    throw new Error(msg);
                 }
             } catch (error) {
                 console.error('Reservation error:', error.message);

@@ -69,13 +69,19 @@
         return res;
     }
 
-    /** Convenience: parse JSON, throw on non-2xx. */
+    /** Convenience: parse JSON, throw on non-2xx. Joi validation errors
+     *  ({ errors: [...] }) are folded into the thrown message so callers
+     *  don't have to drill into err.data themselves. */
     async function apiJson(path, options) {
         const res = await apiFetch(path, options);
         let data;
         try { data = await res.json(); } catch { data = {}; }
         if (!res.ok) {
-            const err = new Error(data.message || `HTTP ${res.status}`);
+            let msg = data.message || `HTTP ${res.status}`;
+            if (Array.isArray(data.errors) && data.errors.length) {
+                msg += ': ' + data.errors.join('; ');
+            }
+            const err = new Error(msg);
             err.status = res.status;
             err.data = data;
             throw err;
