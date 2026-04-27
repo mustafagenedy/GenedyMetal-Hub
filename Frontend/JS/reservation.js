@@ -1,54 +1,59 @@
 // Form submission handling
-        document.getElementById('reservationForm').addEventListener('submit', async function(e) {
+        const reservationForm = document.getElementById('reservationForm');
+        const successCard = document.getElementById('reservationSuccess');
+        const dashboardLink = document.getElementById('successDashboardLink');
+        const anotherBtn = document.getElementById('successAnotherBtn');
+
+        // Hide the "view my reservations" link for guests — they have no dashboard.
+        const guest = !localStorage.getItem('currentUser') && !sessionStorage.getItem('currentUser');
+        if (guest && dashboardLink) dashboardLink.hidden = true;
+
+        if (anotherBtn) {
+            anotherBtn.addEventListener('click', () => {
+                if (successCard) successCard.hidden = true;
+                if (reservationForm) {
+                    reservationForm.hidden = false;
+                    const firstField = reservationForm.querySelector('input, textarea, select');
+                    if (firstField) firstField.focus();
+                }
+            });
+        }
+
+        reservationForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
             const submitButton = this.querySelector('.submit-button');
             const messageDiv = document.getElementById('formMessage');
-            
-            // Show loading state
+
             submitButton.classList.add('loading');
-            messageDiv.classList.remove('show');
-            
-            // Get form data
+            if (messageDiv) messageDiv.classList.remove('show');
+
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
-            
+
             try {
-                console.log('=== SENDING RESERVATION REQUEST ===');
-                console.log('Form data being sent:', data);
-                
-                // Call backend API
-                const response = await fetch('http://localhost:3000/reservations/create', {
+                const response = await gmApi.apiFetch('/reservations/create', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
+                    json: data,
                 });
-                
-                console.log('Response status:', response.status);
-                console.log('Response headers:', response.headers);
-                
                 const result = await response.json();
-                console.log('Response data:', result);
-                
+                dlog('Reservation response:', result);
+
                 if (response.ok) {
-                    showMessage(result.message || 'Reservation request submitted successfully! We\'ll contact you soon to confirm your appointment.', 'success');
                     this.reset();
+                    // Swap the form for the success card with "what's next" guidance.
+                    this.hidden = true;
+                    if (successCard) {
+                        successCard.hidden = false;
+                        successCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
                 } else {
                     throw new Error(result.message || 'Submission failed');
                 }
             } catch (error) {
-                console.error('=== RESERVATION ERROR ===');
-                console.error('Reservation error:', error);
-                console.error('Error details:', {
-                    name: error.name,
-                    message: error.message,
-                    stack: error.stack
-                });
+                console.error('Reservation error:', error.message);
                 showMessage(error.message || 'Something went wrong. Please try again later or contact us directly.', 'error');
             } finally {
-                // Remove loading state
                 submitButton.classList.remove('loading');
             }
         });

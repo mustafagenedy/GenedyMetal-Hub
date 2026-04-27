@@ -1,34 +1,20 @@
-import Reservation from "../../../DB/Model/reservation.model.js";
+import Reservation from "../../DB/Model/reservation.model.js";
 
-// Create new reservation
+// Escape regex metacharacters so user-supplied search strings cannot
+// craft catastrophic-backtracking patterns (ReDoS).
+function escapeRegex(s) {
+    return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+// Create new reservation (public)
 export const createReservation = async (req, res) => {
     try {
-        console.log('=== RESERVATION REQUEST RECEIVED ===');
-        console.log('Request body:', req.body);
-        
         const {
-            fullName,
-            phone,
-            email,
-            visitType,
-            preferredDate,
-            preferredTime,
-            address,
-            notes
+            fullName, phone, visitType,
+            preferredDate, preferredTime, address, notes
         } = req.body;
+        const email = String(req.body.email || "").trim().toLowerCase();
 
-        console.log('Extracted data:', {
-            fullName,
-            phone,
-            email,
-            visitType,
-            preferredDate,
-            preferredTime,
-            address,
-            notes
-        });
-
-        // Create new reservation
         const newReservation = new Reservation({
             fullName,
             phone,
@@ -40,10 +26,7 @@ export const createReservation = async (req, res) => {
             notes
         });
 
-        console.log('Reservation object created:', newReservation);
-
         await newReservation.save();
-        console.log('Reservation saved to database successfully');
 
         return res.status(201).json({
             message: "Reservation created successfully",
@@ -56,42 +39,33 @@ export const createReservation = async (req, res) => {
                 createdAt: newReservation.createdAt
             }
         });
-
     } catch (error) {
-        console.error('=== RESERVATION ERROR ===');
-        console.error('Create reservation error:', error);
-        console.error('Error details:', {
-            name: error.name,
-            message: error.message,
-            stack: error.stack
-        });
+        console.error('[reservations] create error:', error.message);
         return res.status(500).json({ message: "Internal server error" });
     }
 };
 
-// Get all reservations (for admin)
+// Admin: list all reservations
 export const getAllReservations = async (req, res) => {
     try {
-        const { page = 1, limit = 10, status, search } = req.query;
-        
-        let query = {};
-        
-        // Filter by status if provided
-        if (status) {
-            query.status = status;
-        }
-        
-        // Search by name or email if provided
+        const page = Math.max(parseInt(req.query.page || "1", 10), 1);
+        const limit = Math.min(Math.max(parseInt(req.query.limit || "10", 10), 1), 100);
+        const status = req.query.status;
+        const search = req.query.search;
+
+        const query = {};
+        if (status) query.status = status;
         if (search) {
+            const safe = escapeRegex(search);
             query.$or = [
-                { fullName: { $regex: search, $options: 'i' } },
-                { email: { $regex: search, $options: 'i' } }
+                { fullName: { $regex: safe, $options: 'i' } },
+                { email: { $regex: safe, $options: 'i' } }
             ];
         }
 
         const reservations = await Reservation.find(query)
             .sort({ createdAt: -1 })
-            .limit(limit * 1)
+            .limit(limit)
             .skip((page - 1) * limit)
             .exec();
 
@@ -103,45 +77,36 @@ export const getAllReservations = async (req, res) => {
             currentPage: page,
             total
         });
-
     } catch (error) {
-        console.error('Get reservations error:', error);
+        console.error('[reservations] getAll error:', error.message);
         return res.status(500).json({ message: "Internal server error" });
     }
 };
 
-// Get reservation by ID
+// Admin: get one reservation
 export const getReservationById = async (req, res) => {
     try {
-        const { id } = req.params;
-        
-        const reservation = await Reservation.findById(id);
-        
+        const reservation = await Reservation.findById(req.params.id);
         if (!reservation) {
             return res.status(404).json({ message: "Reservation not found" });
         }
-
         return res.status(200).json({ reservation });
-
     } catch (error) {
-        console.error('Get reservation error:', error);
+        console.error('[reservations] getById error:', error.message);
         return res.status(500).json({ message: "Internal server error" });
     }
 };
 
-// Update reservation status (for admin)
+// Admin: update status
 export const updateReservationStatus = async (req, res) => {
     try {
-        const { id } = req.params;
         const { status, preferredDate, preferredTime, notes } = req.body;
+        const reservation = await Reservation.findById(req.params.id);
 
-        const reservation = await Reservation.findById(id);
-        
         if (!reservation) {
             return res.status(404).json({ message: "Reservation not found" });
         }
 
-        // Update fields
         if (status) reservation.status = status;
         if (preferredDate) reservation.preferredDate = new Date(preferredDate);
         if (preferredTime) reservation.preferredTime = preferredTime;
@@ -153,45 +118,36 @@ export const updateReservationStatus = async (req, res) => {
             message: "Reservation updated successfully",
             reservation
         });
-
     } catch (error) {
-        console.error('Update reservation error:', error);
+        console.error('[reservations] update error:', error.message);
         return res.status(500).json({ message: "Internal server error" });
     }
 };
 
-// Delete reservation (for admin)
+// Admin: delete
 export const deleteReservation = async (req, res) => {
     try {
-        const { id } = req.params;
-        
-        const reservation = await Reservation.findByIdAndDelete(id);
-        
+        const reservation = await Reservation.findByIdAndDelete(req.params.id);
         if (!reservation) {
             return res.status(404).json({ message: "Reservation not found" });
         }
-
         return res.status(200).json({ message: "Reservation deleted successfully" });
-
     } catch (error) {
-        console.error('Delete reservation error:', error);
+        console.error('[reservations] delete error:', error.message);
         return res.status(500).json({ message: "Internal server error" });
     }
 };
 
-// Get reservations by email (for users to see their own reservations)
-export const getReservationsByEmail = async (req, res) => {
+// Authenticated user: list ONLY my own reservations.
+// IDOR fix: ignore any ?email= query param — always key on req.user.email.
+export const getMyReservations = async (req, res) => {
     try {
-        const { email, status } = req.query;
-        const userEmail = email || req.user.email; // Use authenticated user's email if not provided
-        
-        let query = { email: userEmail };
-        
-        // Filter by status if provided
-        if (status && status !== 'all') {
-            query.status = status;
-        }
-        
+        const email = String(req.user.email || "").trim().toLowerCase();
+        const status = req.query.status;
+
+        const query = { email };
+        if (status && status !== 'all') query.status = status;
+
         const reservations = await Reservation.find(query)
             .sort({ createdAt: -1 })
             .exec();
@@ -201,12 +157,12 @@ export const getReservationsByEmail = async (req, res) => {
             data: reservations,
             message: "Reservations retrieved successfully"
         });
-
     } catch (error) {
-        console.error('Get reservations by email error:', error);
-        return res.status(500).json({ 
-            success: false,
-            message: "Internal server error" 
-        });
+        console.error('[reservations] getMine error:', error.message);
+        return res.status(500).json({ success: false, message: "Internal server error" });
     }
-}; 
+};
+
+// Backwards compatibility alias for the existing /reservations/user route.
+// Same behavior as getMyReservations — never trusts query.email anymore.
+export const getReservationsByEmail = getMyReservations;

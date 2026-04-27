@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Your Visit</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
     <link rel="stylesheet" href="../CSS/reservation.css">
+    <link rel="stylesheet" href="../CSS/theme.css">
+    <script src="../JS/theme.js" defer></script>
 </head>
 <body>
     <div class="floating-orbs">
@@ -55,7 +57,7 @@
                             class="form-input"
                             placeholder="Enter your phone number"
                             required
-                        >
+                         inputmode="tel" autocomplete="tel">
                         <i class="fas fa-phone form-icon"></i>
                     </div>
 
@@ -68,7 +70,7 @@
                             class="form-input"
                             placeholder="Enter your email address"
                             required
-                        >
+                         inputmode="email">
                         <i class="fas fa-envelope form-icon"></i>
                     </div>
 
@@ -144,8 +146,23 @@
                     <div id="formMessage" class="form-message"></div>
                 </div>
             </form>
+
+            <div id="reservationSuccess" class="reservation-success" hidden role="status" aria-live="polite">
+                <div class="success-icon" aria-hidden="true">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>Request received</h2>
+                <p>Thanks — we'll call you within <strong>24 hours</strong> to confirm the visit. Keep an eye on your phone.</p>
+                <div class="success-actions">
+                    <a href="user-dashboard.html#reservations" class="btn-secondary-action" id="successDashboardLink">View my reservations</a>
+                    <button type="button" class="btn-primary-action" id="successAnotherBtn">Book another</button>
+                    <a href="main.html" class="btn-tertiary-action">Back to home</a>
+                </div>
+            </div>
         </div>
     </div>
+    <script src="../JS/api.js"></script>
+    <script src="../JS/ui.js"></script>
     <script src="../JS/reservation.js"></script>
 </body>
 </html>

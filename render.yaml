@@ -1,0 +1,30 @@
+# Render Blueprint — provisions the Genedy Metal API as a Web Service.
+# Apply via: https://dashboard.render.com → New → Blueprint → connect this repo.
+# Secret values (sync: false) must be filled in via the Render dashboard.
+services:
+  - type: web
+    name: genedy-metal-api
+    runtime: node
+    plan: free                # bump to "starter" before launch — free dynos cold-start ~30s
+    rootDir: Backend
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: BCRYPT_COST
+        value: "12"
+
+      # --- secrets — set these in the Render dashboard, never in this file ---
+      - key: MONGODB_URI
+        sync: false           # mongodb+srv://...  (Atlas connection string)
+      - key: JWT_SECRET
+        sync: false           # generate fresh: node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
+      - key: CORS_ORIGINS
+        sync: false           # https://genedymetal.com,https://www.genedymetal.com

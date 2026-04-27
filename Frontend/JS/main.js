@@ -4,7 +4,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Check user authentication state
     checkUserAuth();
-    
+
     // Initialize all features
     initializeNavigation();
     initializeAnimations();
@@ -12,45 +12,46 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeGallery();
     initializeCounters();
     initializeScrollEffects();
-    initializeLoader();
     initializeTooltips();
-    initializeParallax();
+    // Removed: initializeLoader (artificial 1s delay on a static landing page)
+    // Removed: initializeParallax (out of motion budget; janky on mobile)
 });
 
-// Check user authentication state
+const gmReducedMotion = () =>
+    window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Check user authentication state.
+// The HttpOnly auth cookie is the source of truth — we just use the cached
+// `currentUser` blob for display. If the cookie has expired, the next API
+// call from any dashboard page will redirect through gmApi.apiFetch.
 function checkUserAuth() {
-    const userToken = localStorage.getItem('userToken') || sessionStorage.getItem('userToken');
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser') || 'null');
-    
+
     const userMenuContainer = document.getElementById('userMenuContainer');
     const guestMenuContainer = document.getElementById('guestMenuContainer');
     const userNameElement = document.getElementById('userName');
-    
-    if (userToken && currentUser) {
-        // User is signed in
+
+    if (currentUser && currentUser.fullName) {
         if (userMenuContainer) userMenuContainer.style.display = 'block';
         if (guestMenuContainer) guestMenuContainer.style.display = 'none';
         if (userNameElement) userNameElement.textContent = currentUser.fullName;
     } else {
-        // User is not signed in
         if (userMenuContainer) userMenuContainer.style.display = 'none';
         if (guestMenuContainer) guestMenuContainer.style.display = 'block';
     }
 }
 
-// Logout function
-function logout() {
-    localStorage.removeItem('userToken');
-    localStorage.removeItem('currentUser');
-    sessionStorage.removeItem('userToken');
-    sessionStorage.removeItem('currentUser');
-    
-    // Redirect to welcome page
+// Logout — cookies cleared server-side via /users/logout.
+async function logout() {
+    if (window.gmApi) await window.gmApi.logout();
     window.location.href = 'welcome.html';
 }
 
-// Export logout function for global access
-window.logout = logout;
+// Wire up the logout button (replaces former inline onclick="logout()")
+document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('logoutBtn');
+    if (btn) btn.addEventListener('click', logout);
+});
 
 // =========================
 // NAVIGATION ENHANCEMENTS
@@ -234,13 +235,10 @@ function initializeContactForm() {
                         message: formData.get('message')
                     };
 
-                    // Send to backend API
-                    const response = await fetch('http://localhost:3000/messages', {
+                    // Send to backend API (apiFetch handles credentials + CSRF)
+                    const response = await gmApi.apiFetch('/messages', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(messageData)
+                        json: messageData,
                     });
 
                     const result = await response.json();
@@ -297,33 +295,37 @@ function validateForm(inputs) {
 function validateSingleField(field) {
     const value = field.value.trim();
     let isValid = true;
+    let message = '';
 
-    // Remove previous validation classes
     field.classList.remove('is-valid', 'is-invalid');
 
-    // Check if required field is empty
     if (field.hasAttribute('required') && !value) {
         isValid = false;
-    }
-
-    // Email validation
-    if (field.type === 'email' && value) {
+        message = 'This field is required.';
+    } else if (field.type === 'email' && value) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(value)) {
             isValid = false;
+            message = 'Enter a valid email address (e.g. you@example.com).';
         }
-    }
-
-    // Phone validation
-    if (field.type === 'tel' && value) {
+    } else if (field.type === 'tel' && value) {
         const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
         if (!phoneRegex.test(value)) {
             isValid = false;
+            message = 'Enter a phone number with at least 10 digits.';
         }
+    } else if (field.minLength > 0 && value && value.length < field.minLength) {
+        isValid = false;
+        message = `Please enter at least ${field.minLength} characters.`;
     }
 
-    // Add validation classes
     field.classList.add(isValid ? 'is-valid' : 'is-invalid');
+    field.setAttribute('aria-invalid', String(!isValid));
+
+    // Surface inline feedback if a feedback element is wired up
+    const fbId = field.getAttribute('aria-describedby');
+    const fb = fbId ? document.getElementById(fbId) : null;
+    if (fb) fb.textContent = isValid ? '' : message;
 
     return isValid;
 }
@@ -424,6 +426,32 @@ function initializeGallery() {
         });
     }
 
+    // Wire up gallery items (replaces former inline onclick="openLightbox(...)")
+    document.querySelectorAll('.gallery-item').forEach((el) => {
+        el.addEventListener('click', () => {
+            const cat = el.dataset.category;
+            const idx = parseInt(el.dataset.index || '0', 10);
+            openLightbox(cat, idx);
+        });
+    });
+
+    // Lightbox close + nav (replaces former inline onclick handlers)
+    const closeBtn = document.querySelector('.lightbox-close');
+    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+    const prevBtn = document.querySelector('.lightbox-prev');
+    if (prevBtn) prevBtn.addEventListener('click', () => changeImage(-1));
+    const nextBtn = document.querySelector('.lightbox-next');
+    if (nextBtn) nextBtn.addEventListener('click', () => changeImage(1));
+
+    // Esc to close, arrows to navigate
+    document.addEventListener('keydown', (e) => {
+        const modal = document.getElementById('lightboxModal');
+        if (!modal || !modal.classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') changeImage(-1);
+        if (e.key === 'ArrowRight') changeImage(1);
+    });
+
     // Filter functionality
     const filterButtons = document.querySelectorAll('.filter-btn');
     const galleryItems = document.querySelectorAll('.gallery-item');
@@ -442,7 +470,7 @@ function initializeGallery() {
                 if (filter === 'all' || category === filter) {
                     item.classList.remove('fade-out');
                     item.classList.add('fade-in');
-                    item.style.display = 'block'; // Ensure it's visible
+                    item.style.display = ''; // Restore CSS-defined display
                 } else {
                     item.classList.remove('fade-in');
                     item.classList.add('fade-out');
@@ -471,6 +499,11 @@ function initializeGallery() {
 // =========================
 function initializeCounters() {
     const counters = document.querySelectorAll('.history-item h4');
+
+    if (gmReducedMotion()) {
+        // Show final values immediately, no animation
+        return;
+    }
 
     const counterObserver = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
@@ -531,36 +564,6 @@ function createScrollProgressIndicator() {
 }
 
 // =========================
-// LOADER
-// =========================
-function initializeLoader() {
-    // Create and show loader
-    const loaderHTML = `
-        <div class="page-loader" id="pageLoader">
-            <div class="loader-content">
-                <div class="loader-spinner"></div>
-                <div class="loader-text">Loading...</div>
-            </div>
-        </div>
-    `;
-
-    document.body.insertAdjacentHTML('afterbegin', loaderHTML);
-
-    // Hide loader when page is fully loaded
-    window.addEventListener('load', function() {
-        const loader = document.getElementById('pageLoader');
-        if (loader) {
-            setTimeout(() => {
-                loader.classList.add('fade-out');
-                setTimeout(() => {
-                    loader.remove();
-                }, 500);
-            }, 1000);
-        }
-    });
-}
-
-// =========================
 // TOOLTIPS
 // =========================
 function initializeTooltips() {
@@ -572,22 +575,6 @@ function initializeTooltips() {
             return new bootstrap.Tooltip(tooltipTriggerEl);
         });
     }
-}
-
-// =========================
-// PARALLAX EFFECTS
-// =========================
-function initializeParallax() {
-    const parallaxElements = document.querySelectorAll('.banner_main');
-
-    window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        const rate = scrolled * -0.5;
-
-        parallaxElements.forEach(element => {
-            element.style.transform = `translateY(${rate}px)`;
-        });
-    });
 }
 
 // =========================
@@ -725,10 +712,10 @@ if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js')
             .then(function(registration) {
-                console.log('ServiceWorker registration successful');
+                dlog('ServiceWorker registration successful');
             })
             .catch(function(err) {
-                console.log('ServiceWorker registration failed');
+                dlog('ServiceWorker registration failed');
             });
     });
 }

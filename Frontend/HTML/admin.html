@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Reservation Management</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
     <link rel="stylesheet" href="../CSS/admin.css">
+    <link rel="stylesheet" href="../CSS/theme.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../JS/theme.js" defer></script>
 </head>
 <body>
     <!-- Mobile menu toggle -->
@@ -76,7 +78,24 @@
                     </div>
                 </div>
 
-                <!-- Stats Grid -->
+                <!-- Action queue first — what needs attention now. -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Reservations queue</h2>
+                        <div class="filter-tabs">
+                            <button class="filter-tab active" data-filter="all">All</button>
+                            <button class="filter-tab" data-filter="pending">Pending</button>
+                            <button class="filter-tab" data-filter="confirmed">Confirmed</button>
+                            <button class="filter-tab" data-filter="cancelled">Cancelled</button>
+                        </div>
+                    </div>
+
+                    <div class="reservations-list" id="reservationsList">
+                        <!-- Reservation items will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Stats grid below the queue (overview, not first thing). -->
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-icon pending">
@@ -104,24 +123,7 @@
                             <i class="fas fa-calendar-alt"></i>
                         </div>
                         <div class="stat-number" id="totalStats">0</div>
-                        <div class="stat-label">Total This Month</div>
-                    </div>
-                </div>
-
-                <!-- Reservations Section -->
-                <div class="content-section">
-                    <div class="section-header">
-                        <h2 class="section-title">Recent Reservations</h2>
-                        <div class="filter-tabs">
-                            <button class="filter-tab active" data-filter="all">All</button>
-                            <button class="filter-tab" data-filter="pending">Pending</button>
-                            <button class="filter-tab" data-filter="confirmed">Confirmed</button>
-                            <button class="filter-tab" data-filter="cancelled">Cancelled</button>
-                        </div>
-                    </div>
-
-                    <div class="reservations-list" id="reservationsList">
-                        <!-- Reservation items will be populated by JavaScript -->
+                        <div class="stat-label">Total Reservations</div>
                     </div>
                 </div>
             </div>
@@ -219,6 +221,8 @@
             </div>
         </main>
     </div>
+    <script src="../JS/api.js"></script>
+    <script src="../JS/ui.js"></script>
     <script src="../JS/admin.js"></script>
 </body>
 </html>

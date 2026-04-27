@@ -10,15 +10,17 @@
     <meta name="author" content="جنيدي ميتال">
     
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Arabic Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     <!-- CSS File -->
     <link rel="stylesheet" href="../CSS/welcome.css">
+    <link rel="stylesheet" href="../CSS/theme.css">
+    <script src="../JS/theme.js" defer></script>
     <style>
         body {
             font-family: 'Cairo', 'Tajawal', sans-serif !important;
@@ -47,11 +49,6 @@
             <a href="main-ar.html" class="back-to-home" aria-label="العودة للصفحة الرئيسية">
                 <i class="fas fa-arrow-left"></i>
                 العودة للرئيسية
-            </a>
-
-            <a href="/Frontend/HTML/admin-login.html" class="admin-login-btn" aria-label="تسجيل دخول المدير">
-                <i class="fas fa-user-shield"></i>
-                المدير
             </a>
         </div>
 
@@ -123,15 +120,16 @@
             </div>
 
             <div class="quick-access">
-                <a href="#" class="quick-link">تصفح المنتجات</a>
-                <a href="#" class="quick-link">اتصل بالدعم</a>
-                <a href="#" class="quick-link">عرض المعرض</a>
+                <a href="main-ar.html#products" class="quick-link">تصفح المنتجات</a>
+                <a href="main-ar.html#contact" class="quick-link">اتصل بالدعم</a>
+                <a href="main-ar.html#gallery" class="quick-link">عرض المعرض</a>
+                <a href="../HTML/admin-login.html" class="quick-link" aria-label="تسجيل دخول المدير">المدير</a>
             </div>
         </div>
     </div>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script src="welcome.js"></script>
 </body>
 </html>

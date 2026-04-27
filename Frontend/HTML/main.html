@@ -4,19 +4,25 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0c3088">
     <title>Genedy Metal - Premium Aluminum Solutions in Egypt</title>
     <meta name="keywords" content="aluminum doors, aluminum windows, aluminum kitchens, metal fabrication, Egypt, Giza">
     <meta name="description" content="Genedy Metal specializes in high-quality aluminum doors, windows, kitchens, and frontages. Professional installation and custom solutions across Egypt.">
     <meta name="author" content="Genedy Metal">
-    
+
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
+    <!-- Google Fonts (Poppins for body, Rajdhani for brand text only) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Rajdhani:wght@600;700&display=swap">
+    <!-- Page CSS, then theme primitives (so theme can override) -->
     <link rel="stylesheet" href="../CSS/main.css">
+    <link rel="stylesheet" href="../CSS/theme.css">
+    <!-- Theme + language toggle (sets <html data-theme=...> before paint) -->
+    <script src="../JS/theme.js" defer></script>
 </head>
 
 <body>
@@ -25,7 +31,7 @@
         <nav class="navbar navbar-expand-lg" >
             <div class="container">
                 <a class="navbar-brand" href="#home">
-                    <img src="../Assets/b&w logo.png" alt="Genedy Metal Logo">
+                    <img src="../Assets/b&w logo.png" alt="Genedy Metal Logo" width="40" height="40" decoding="async">
                     <span class="brand-text">GENEDY METAL</span>
                 </a>
                 
@@ -70,17 +76,18 @@
                                         <i class="fas fa-envelope"></i> My Messages
                                     </a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#" onclick="logout()">
+                                    <li><button type="button" class="dropdown-item" id="logoutBtn">
                                         <i class="fas fa-sign-out-alt"></i> Logout
-                                    </a></li>
+                                    </button></li>
                                 </ul>
                             </div>
                         </li>
                         <li class="nav-item" id="guestMenuContainer">
                             <a class="btn btn-outline-primary ms-3" href="welcome.html">Welcome</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="/Frontend/HTML-AR/main-ar.html" class="btn btn-outline-secondary">العربية</a>
+                        <!-- Language toggle is auto-injected by theme.js as a floating control -->
+                        <li class="nav-item d-none">
+                            <a href="../HTML-AR/main-ar.html" class="btn btn-outline-secondary">العربية</a>
                         </li>
                     </ul>
                 </div>
@@ -179,7 +186,7 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="../Assets/Door.jpg" alt="">
+                            <img src="../Assets/Door.jpg" alt="Aluminum entry door, exterior view" width="800" height="600" loading="lazy" decoding="async">
                         </div>
                         <div class="product-content">
                             <h4>Doors</h4>
@@ -197,7 +204,7 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="../Assets/Window.jpg" alt="">
+                            <img src="../Assets/Window.jpg" alt="Aluminum window with thermal frame" width="800" height="600" loading="lazy" decoding="async">
                         </div>
                         <div class="product-content">
                             <h4>Windows</h4>
@@ -215,7 +222,7 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="../Assets/Kitchen.jpg" alt="">
+                            <img src="../Assets/Kitchen.jpg" alt="Modern aluminum kitchen cabinetry" width="800" height="600" loading="lazy" decoding="async">
                         </div>
                         <div class="product-content">
                             <h4>Kitchens</h4>
@@ -233,7 +240,7 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="../Assets/frontage.jpg" alt="">
+                            <img src="../Assets/frontage.jpg" alt="Commercial aluminum frontage system" width="800" height="600" loading="lazy" decoding="async">
                         </div>
                         <div class="product-content">
                             <h4>Frontages</h4>
@@ -268,149 +275,140 @@
             </div>
 
             <div class="gallery-grid">
-                <div class="gallery-item" data-category="kitchens" data-title="Modern Kitchen Design" data-description="Sleek, minimalist design with integrated appliances for a contemporary feel." onclick="openLightbox('kitchens', 0)">
+                <button type="button" class="gallery-item" data-category="kitchens" data-index="0" aria-label="Open Modern Kitchen project">
                     <div class="product-image">
-                        <img src="../Assets/Kitchen.jpg" alt="Modern Kitchen">
+                        <img src="../Assets/Kitchen.jpg" alt="Modern aluminum kitchen — minimalist island" width="800" height="600" loading="lazy" decoding="async">
                     </div>
                     <div class="product-info">
                         <div class="product-title">
                             <h3>Modern Kitchen</h3>
-                            <span class="client-name"><i class="fas fa-user"></i>Client: Homeowner A</span>
+                            <span class="client-name"><i class="fas fa-user" aria-hidden="true"></i>Client: Homeowner A</span>
                         </div>
-                        <br>
                         <span class="project-status status-completed">Completed</span>
                     </div>
-                </div>
+                </button>
 
-                <div class="gallery-item" data-category="kitchens" data-title="Modern Kitchen Design" data-description="Sleek, minimalist design with integrated appliances for a contemporary feel." onclick="openLightbox('kitchens', 0)">
+                <button type="button" class="gallery-item" data-category="kitchens" data-index="1" aria-label="Open Spacious Kitchen Island project">
                     <div class="product-image">
-                        <img src="../Assets/Kitchen.jpg" alt="Modern Kitchen">
+                        <img src="../Assets/Kitchen.jpg" alt="Spacious kitchen island in matte finish" width="800" height="600" loading="lazy" decoding="async">
                     </div>
                     <div class="product-info">
                         <div class="product-title">
-                            <h3>Modern Kitchen</h3>
-                            <span class="client-name"><i class="fas fa-user"></i>Client: Homeowner A</span>
+                            <h3>Spacious Kitchen Island</h3>
+                            <span class="client-name"><i class="fas fa-user" aria-hidden="true"></i>Client: Homeowner B</span>
                         </div>
-                        <br>
                         <span class="project-status status-completed">Completed</span>
                     </div>
-                </div>
+                </button>
 
-                <div class="gallery-item" data-category="doors" data-title="Elegant Sliding Door" data-description="Custom-made sliding door with privacy glass and a smooth gliding mechanism." onclick="openLightbox('doors', 0)">
+                <button type="button" class="gallery-item" data-category="doors" data-index="0" aria-label="Open Elegant Sliding Door project">
                     <div class="product-image">
-                        <img src="../Assets/Door.jpg" alt="Sliding Door">
+                        <img src="../Assets/Door.jpg" alt="Aluminum sliding door with privacy glass" width="800" height="600" loading="lazy" decoding="async">
                     </div>
                     <div class="product-info">
                         <div class="product-title">
                             <h3>Sliding Door</h3>
-                            <span class="client-name"><i class="fas fa-user"></i>Client: Office Building</span>
+                            <span class="client-name"><i class="fas fa-user" aria-hidden="true"></i>Client: Office Building</span>
                         </div>
-                        <br>
                         <span class="project-status status-ongoing">Ongoing</span>
                     </div>
-                </div>
+                </button>
 
-                <div class="gallery-item" data-category="doors" data-title="Elegant Sliding Door" data-description="Custom-made sliding door with privacy glass and a smooth gliding mechanism." onclick="openLightbox('doors', 1)">
+                <button type="button" class="gallery-item" data-category="doors" data-index="1" aria-label="Open Solid Wood Entry Door project">
                     <div class="product-image">
-                        <img src="../Assets/Door.jpg" alt="Sliding Door">
+                        <img src="../Assets/Door.jpg" alt="Solid wood entry door with carved panels" width="800" height="600" loading="lazy" decoding="async">
                     </div>
                     <div class="product-info">
                         <div class="product-title">
-                            <h3>Sliding Door 2</h3>
-                            <span class="client-name"><i class="fas fa-user"></i>Client: Office Building</span>
+                            <h3>Solid Wood Entry</h3>
+                            <span class="client-name"><i class="fas fa-user" aria-hidden="true"></i>Client: Residential Villa</span>
                         </div>
-                        <br>
-                        <span class="project-status status-ongoing">Ongoing</span>
+                        <span class="project-status status-completed">Completed</span>
                     </div>
-                </div>
+                </button>
 
-                <div class="gallery-item" data-category="windows" data-title="Panoramic Window Installation" data-description="Large panoramic windows offering stunning views and excellent insulation." onclick="openLightbox('windows', 0)">
+                <button type="button" class="gallery-item" data-category="windows" data-index="0" aria-label="Open Panoramic Window project">
                     <div class="product-image">
-                        <img src="../Assets/Window.jpg" alt="Panoramic Window">
+                        <img src="../Assets/Window.jpg" alt="Panoramic aluminum window with mountain view" width="800" height="600" loading="lazy" decoding="async">
                     </div>
                     <div class="product-info">
                         <div class="product-title">
                             <h3>Panoramic Window</h3>
-                            <span class="client-name"><i class="fas fa-user"></i>Client: Luxury Villa</span>
+                            <span class="client-name"><i class="fas fa-user" aria-hidden="true"></i>Client: Luxury Villa</span>
                         </div>
-                        <br>
                         <span class="project-status status-completed">Completed</span>
                     </div>
-                </div>
+                </button>
 
-                <div class="gallery-item" data-category="windows" data-title="Panoramic Window Installation" data-description="Large panoramic windows offering stunning views and excellent insulation." onclick="openLightbox('windows', 1)">
+                <button type="button" class="gallery-item" data-category="windows" data-index="1" aria-label="Open Bay Window Design project">
                     <div class="product-image">
-                        <img src="../Assets/Window.jpg" alt="Panoramic Window">
+                        <img src="../Assets/Window.jpg" alt="Bay window with classic aluminum frame" width="800" height="600" loading="lazy" decoding="async">
                     </div>
                     <div class="product-info">
                         <div class="product-title">
-                            <h3>Panoramic Window 2</h3>
-                            <span class="client-name"><i class="fas fa-user"></i>Client: Luxury Villa</span>
+                            <h3>Bay Window Design</h3>
+                            <span class="client-name"><i class="fas fa-user" aria-hidden="true"></i>Client: Townhouse</span>
                         </div>
-                        <br>
                         <span class="project-status status-completed">Completed</span>
                     </div>
-                </div>
+                </button>
 
-                <div class="gallery-item" data-category="frontages" data-title="Modern Store Frontage" data-description="Eye-catching and durable store frontage designed to attract customers." onclick="openLightbox('frontages', 0)">
+                <button type="button" class="gallery-item" data-category="frontages" data-index="0" aria-label="Open Modern Store Frontage project">
                     <div class="product-image">
-                        <img src="../Assets/Frontage.jpg" alt="Store Frontage">
+                        <img src="../Assets/frontage.jpg" alt="Modern aluminum store frontage" width="800" height="600" loading="lazy" decoding="async">
                     </div>
                     <div class="product-info">
                         <div class="product-title">
                             <h3>Store Frontage</h3>
-                            <span class="client-name"><i class="fas fa-user"></i>Client: Retail Brand</span>
+                            <span class="client-name"><i class="fas fa-user" aria-hidden="true"></i>Client: Retail Brand</span>
                         </div>
-                        <br>
                         <span class="project-status status-completed">Completed</span>
                     </div>
-                </div>
+                </button>
 
-                <div class="gallery-item" data-category="frontages" data-title="Modern Store Frontage" data-description="Eye-catching and durable store frontage designed to attract customers." onclick="openLightbox('frontages', 1)">
+                <button type="button" class="gallery-item" data-category="frontages" data-index="1" aria-label="Open Commercial Building Facade project">
                     <div class="product-image">
-                        <img src="../Assets/Frontage.jpg" alt="Store Frontage">
+                        <img src="../Assets/frontage.jpg" alt="Commercial building aluminum facade" width="800" height="600" loading="lazy" decoding="async">
                     </div>
                     <div class="product-info">
                         <div class="product-title">
-                            <h3>Store Frontage 2</h3>
-                            <span class="client-name"><i class="fas fa-user"></i>Client: Retail Brand</span>
+                            <h3>Commercial Facade</h3>
+                            <span class="client-name"><i class="fas fa-user" aria-hidden="true"></i>Client: Office Tower</span>
                         </div>
-                        <br>
                         <span class="project-status status-completed">Completed</span>
                     </div>
-                </div>
+                </button>
 
-                <div class="gallery-item" data-category="frontages" data-title="Modern Store Frontage" data-description="Eye-catching and durable store frontage designed to attract customers." onclick="openLightbox('frontages', 1)">
+                <button type="button" class="gallery-item" data-category="frontages" data-index="2" aria-label="Open Retail Outlet Entrance project">
                     <div class="product-image">
-                        <img src="../Assets/Frontage.jpg" alt="Store Frontage">
+                        <img src="../Assets/frontage.jpg" alt="Retail outlet entrance with aluminum trim" width="800" height="600" loading="lazy" decoding="async">
                     </div>
                     <div class="product-info">
                         <div class="product-title">
-                            <h3>Store Frontage 2</h3>
-                            <span class="client-name"><i class="fas fa-user"></i>Client: Retail Brand</span>
+                            <h3>Retail Entrance</h3>
+                            <span class="client-name"><i class="fas fa-user" aria-hidden="true"></i>Client: Boutique</span>
                         </div>
-                        <br>
                         <span class="project-status status-completed">Completed</span>
                     </div>
-                </div>
+                </button>
             </div>
+            <p class="gallery-empty" hidden role="status" aria-live="polite" style="text-align:center;color:var(--muted-text);padding:40px 20px;">No projects in this category yet.</p>
         </div>
     </section>
 
-    <div id="lightboxModal" class="lightbox-modal">
+    <div id="lightboxModal" class="lightbox-modal" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
         <div class="lightbox-content">
-            <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+            <button type="button" class="lightbox-close" aria-label="Close gallery">&times;</button>
             <div class="lightbox-image-wrapper">
-                <img id="lightboxImage" class="lightbox-image" src="" alt="Lightbox Image">
-                <div class="lightbox-nav lightbox-prev" onclick="changeImage(-1)"><i class="fas fa-chevron-left"></i></div>
-                <div class="lightbox-nav lightbox-next" onclick="changeImage(1)"><i class="fas fa-chevron-right"></i></div>
+                <img id="lightboxImage" class="lightbox-image" src="" alt="">
+                <button type="button" class="lightbox-nav lightbox-prev" aria-label="Previous image"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+                <button type="button" class="lightbox-nav lightbox-next" aria-label="Next image"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
             </div>
             <div id="lightboxInfo" class="lightbox-info">
                 <h3 id="lightboxTitle"></h3>
                 <p id="lightboxDescription"></p>
             </div>
-            <div id="lightboxThumbnails" class="lightbox-gallery-thumbnails">
-                </div>
+            <div id="lightboxThumbnails" class="lightbox-gallery-thumbnails"></div>
         </div>
     </div>
 
@@ -425,32 +423,40 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="contact-form">
-                        <form id="contactForm">
+                        <form id="contactForm" novalidate>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                                        <label for="cf-name" class="visually-hidden">Your name</label>
+                                        <input type="text" id="cf-name" name="name" class="form-control" placeholder="Your Name" autocomplete="name" required minlength="2" aria-describedby="cf-name-feedback">
+                                        <small id="cf-name-feedback" class="form-feedback" aria-live="polite"></small>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input type="tel" name="phone" class="form-control" placeholder="Phone Number" required>
+                                        <label for="cf-phone" class="visually-hidden">Phone number</label>
+                                        <input type="tel" id="cf-phone" name="phone" class="form-control" placeholder="Phone Number" autocomplete="tel" required aria-describedby="cf-phone-feedback" inputmode="tel">
+                                        <small id="cf-phone-feedback" class="form-feedback" aria-live="polite"></small>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input type="email" name="email" class="form-control" placeholder="Email Address" required>
+                                        <label for="cf-email" class="visually-hidden">Email address</label>
+                                        <input type="email" id="cf-email" name="email" class="form-control" placeholder="Email Address" autocomplete="email" required aria-describedby="cf-email-feedback" inputmode="email">
+                                        <small id="cf-email-feedback" class="form-feedback" aria-live="polite"></small>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <textarea name="message" class="form-control" rows="5" placeholder="Your Message" required></textarea>
+                                        <label for="cf-message" class="visually-hidden">Your message</label>
+                                        <textarea id="cf-message" name="message" class="form-control" rows="5" placeholder="Your Message" required minlength="10" aria-describedby="cf-message-feedback"></textarea>
+                                        <small id="cf-message-feedback" class="form-feedback" aria-live="polite"></small>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-primary btn-lg w-100">Send Message</button>
                                 </div>
@@ -541,8 +547,10 @@
     </footer>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <!-- Custom JS -->
+    <script src="../JS/api.js"></script>
+    <script src="../JS/ui.js"></script>
     <script src="../JS/main.js"></script>
 </body>
 </html>

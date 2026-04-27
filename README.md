@@ -1,166 +1,129 @@
-# Genedy Metal Web Application
+# Genedy Metal Hub
 
-## Overview
-Genedy Metal is a full-stack web application for a premium aluminum solutions company based in Egypt. The platform provides a modern, responsive website for customers to explore products, view galleries, contact the company, and reserve visits. It also features a robust backend for user management, reservations, and message handling, with both English and Arabic language support.
+Marketing site, reservation system, and admin panel for **Genedy Metal**, a premium aluminum solutions company in Egypt. Bilingual EN / AR. Static frontend, Node/Express + MongoDB backend.
 
----
-
-## Table of Contents
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Backend](#backend)
-  - [API Endpoints](#api-endpoints)
-  - [Database Models](#database-models)
-- [Frontend](#frontend)
-  - [Pages](#pages)
-  - [Assets & Styling](#assets--styling)
-  - [Multilingual Support](#multilingual-support)
-- [Setup & Installation](#setup--installation)
-- [Usage](#usage)
-- [License](#license)
+> Production target: **Vercel** (frontend) + **Render** (backend) + **MongoDB Atlas** (database). Step-by-step launch instructions live in [LAUNCH.md](LAUNCH.md).
 
 ---
 
-## Features
-- Modern, responsive company website (English & Arabic)
-- Product showcase (doors, windows, kitchens, frontages)
-- Interactive gallery with lightbox
-- Contact form with backend integration
-- Reservation system for booking visits
-- User authentication and dashboard
-- Admin panel for managing users, reservations, and messages
-- RESTful API (Express.js, MongoDB)
-- Secure authentication (JWT, bcrypt)
-- Form validation (Joi, frontend validation)
+## Architecture
 
----
-
-## Project Structure
 ```
-MetalTest/
-├── **Backend/**
-│   ├── DB/
-│   │   ├── dbConnection.js
-│   │   └── Model/
-│   │       ├── user.model.js
-│   │       ├── message.model.js
-│   │       └── reservation.model.js
-│   ├── index.js
-│   ├── package.json
-│   └── SRC/
-│       ├── Middleware/
-│       └── Modules/
-├── **Frontend/**
-│   ├── HTML/
-│   ├── HTML-AR/
-│   ├── CSS/
-│   ├── JS/
-│   └── Assets/
+Browser  ──>  https://genedymetal.com           (Vercel — static HTML/CSS/JS)
+              │
+              │  Vercel rewrite: /api/*  ──>    https://genedy-metal-api.onrender.com/*
+              │                                  (Render — Node/Express)
+              ▼                                          │
+                                                         ▼
+                                            MongoDB Atlas (managed)
 ```
 
----
-
-## Backend
-- **Framework:** Node.js (Express.js)
-- **Database:** MongoDB (Mongoose ODM)
-- **API:** RESTful, modular structure
-- **Security:** JWT authentication, bcrypt password hashing, CORS
-- **Validation:** Joi for request validation
-
-### API Endpoints
-- `/users` - User registration, login, profile, dashboard
-- `/reservations` - Create, view, manage reservations
-- `/messages` - Contact form messages, admin replies
-
-### Database Models
-- **User**
-  - `fullName` (String, required)
-  - `email` (String, required, unique)
-  - `phone` (String, required)
-  - `password` (String, required, hashed)
-  - `role` (String: 'admin' or 'user', default: 'user')
-  - Timestamps
-- **Message**
-  - `name`, `email`, `phone`, `message` (all required)
-  - `status` (pending, read, replied)
-  - Timestamps
-- **Reservation**
-  - `fullName`, `phone`, `email` (all required)
-  - `visitType` (consultation, follow-up, emergency, routine, other)
-  - `preferredDate`, `preferredTime`, `address`, `notes`
-  - `status` (pending, confirmed, cancelled, completed)
-  - Timestamps
+The browser only ever talks to the Vercel origin, so cookies stay `SameSite=Lax` and CORS is a non-issue.
 
 ---
 
-## Frontend
-- **Tech:** HTML5, CSS3, JavaScript (Vanilla), Bootstrap 5, Font Awesome
-- **Structure:** Modular, with separate folders for HTML, CSS, JS, and assets
-- **Features:**
-  - Responsive navigation and sections (About, Products, Gallery, Contact)
-  - Interactive gallery with filtering and lightbox
-  - Contact form with real-time validation and backend integration
-  - Reservation form and user dashboard
-  - Admin and user login pages
-  - Multilingual support (English/Arabic)
-
-### Pages
-- `main.html` - Main landing page (EN)
-- `main-ar.html` - Main landing page (AR)
-- `reservation.html` / `reservation-ar.html` - Reservation forms
-- `user-dashboard.html` / `user-dashboard-ar.html` - User dashboards
-- `admin.html`, `admin-login.html` - Admin panel and login
-- `welcome.html` / `welcome-ar.html` - Welcome/landing
-- `signin.html`, `signup.html` / `signin-ar.html`, `signup-ar.html` - Auth pages
-
-### Assets & Styling
-- **Images:** Product, gallery, logo, and banner images in `Assets/`
-- **CSS:** Modular stylesheets for each page and global styles in `main.css`
-- **JS:** Modular scripts for each page, main logic in `main.js`
-
-### Multilingual Support
-- All main pages are available in both English (`HTML/`) and Arabic (`HTML-AR/`)
-- RTL support and Arabic fonts/styles for Arabic pages
-
----
-
-## Setup & Installation
+## Local development
 
 ### Prerequisites
-- Node.js (v16+ recommended)
-- MongoDB (local or cloud instance)
 
-### Backend Setup
-1. Navigate to the `Backend/` directory:
-   ```sh
-   cd Backend
-   ```
-2. Install dependencies:
-   ```sh
-   npm install
-   ```
-3. Start the backend server:
-   ```sh
-   npm run dev
-   # or
-   npm start
-   ```
-   The server runs on `http://localhost:3000` by default.
+- Node.js 20+
+- A local MongoDB instance, **or** a free MongoDB Atlas cluster
 
-### Frontend Setup
-- Open any HTML file in the `Frontend/HTML/` or `Frontend/HTML-AR/` directory in your browser.
-- For local development, you can use a simple HTTP server (e.g., VSCode Live Server, Python's `http.server`, etc.)
+### One-time setup
+
+```bash
+git clone https://github.com/mustafagenedy/GenedyMetal-Hub.git
+cd GenedyMetal-Hub/Backend
+npm install
+cp .env.example .env
+# edit .env — set MONGODB_URI and a real JWT_SECRET
+node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
+```
+
+### Run
+
+```bash
+# in one terminal — backend
+cd Backend
+npm run dev          # http://localhost:3000
+
+# in another — serve the frontend (any static server works)
+cd Frontend
+npx serve            # or VS Code Live Server, python3 -m http.server, etc.
+```
+
+Open `http://localhost:3000/health` to confirm the backend is alive, and `http://localhost:5173/HTML/main.html` (or whatever port your static server picks) for the site.
 
 ---
 
-## Usage
-- **Contact Form:** Sends messages to the backend (`/messages` endpoint)
-- **Reservation:** Users can book visits, which are stored in the backend (`/reservations`)
-- **Authentication:** Users can sign up, log in, and access their dashboard
-- **Admin:** Admins can manage users, reservations, and messages via the admin panel
-- **Multilingual:** Switch between English and Arabic from the navigation bar
+## Environment variables
+
+All secrets live in `Backend/.env` locally and in the **Render dashboard** in production. Never commit them.
+
+| Variable          | Required        | Example / default                     | Notes |
+|-------------------|-----------------|---------------------------------------|-------|
+| `NODE_ENV`        | yes             | `development` / `production`          | Production refuses to boot without `JWT_SECRET`. |
+| `PORT`            | no              | `3000`                                | Render injects its own. |
+| `MONGODB_URI`     | **yes (prod)**  | `mongodb+srv://USER:PASS@.../db`      | Local fallback exists. |
+| `JWT_SECRET`      | **yes**         | 96-char hex string                    | Must be ≥32 chars in prod. |
+| `JWT_EXPIRES_IN`  | no              | `7d`                                  | Cookie max-age also 7d. |
+| `BCRYPT_COST`     | no              | `12`                                  | Min 10 (clamped). |
+| `CORS_ORIGINS`    | yes (prod)      | `https://genedymetal.com,https://www.genedymetal.com` | Comma-separated. `*` allowed in dev only. |
+
+---
+
+## Project layout
+
+```
+.
+├── Backend/                       Node/Express + Mongoose
+│   ├── index.js                   server entry — boots DB, then HTTP
+│   ├── SRC/
+│   │   ├── DB/                    db connection + Mongoose models
+│   │   ├── Middleware/            auth, csrf, rate-limit, validation, error handler
+│   │   └── Modules/{User,Reservation,Messages}/
+│   │                              router + controller + Joi validation per resource
+│   ├── package.json
+│   └── .env.example               copy to .env locally
+├── Frontend/                      static — served by Vercel
+│   ├── HTML/                      English pages
+│   ├── HTML-AR/                   Arabic mirrors (RTL)
+│   ├── CSS/
+│   ├── JS/                        api.js, ui.js, theme.js, plus per-page scripts
+│   └── Assets/
+├── .github/workflows/ci.yml       install, syntax check, npm audit
+├── render.yaml                    Render Blueprint (backend service)
+├── vercel.json                    Vercel rewrites + headers (frontend)
+└── LAUNCH.md                      step-by-step deploy runbook
+```
+
+---
+
+## API surface
+
+| Method | Path                          | Auth         | Notes |
+|--------|-------------------------------|--------------|-------|
+| POST   | `/users/signup`               | rate-limited | Public |
+| POST   | `/users/signin`               | rate-limited | Sets `gm-token` (HttpOnly) + `gm-csrf` cookies |
+| POST   | `/users/logout`               | cookie       | Clears both cookies |
+| GET    | `/users/csrf`                 | none         | Mints a fresh CSRF cookie |
+| GET    | `/users/profile`              | user         | |
+| GET    | `/users/all`                  | admin        | `?page=&limit=&search=` |
+| GET    | `/users/stats`                | admin        | |
+| GET    | `/users/analytics`            | admin        | |
+| POST   | `/reservations/create`        | rate-limited | Public |
+| GET    | `/reservations/mine`          | user         | Replaces old `/user` IDOR-prone route |
+| GET    | `/reservations/all`           | admin        | |
+| GET / PUT / DELETE | `/reservations/:id` | admin       | |
+| POST   | `/messages`                   | rate-limited | Public contact form |
+| GET    | `/messages/mine`              | user         | |
+| GET / PUT / DELETE | `/messages` and `/messages/:id` | admin | |
+| GET    | `/health`                     | none         | Render uses this for health checks |
+
+State-changing routes (POST/PUT/DELETE) require an `X-CSRF-Token` header that matches the `gm-csrf` cookie when the request carries an auth cookie. The shared `gmApi.apiFetch` wrapper handles this automatically.
 
 ---
 
 ## License
-This project is licensed under the ISC License. See the [LICENSE](LICENSE) file for details.
+
+ISC.

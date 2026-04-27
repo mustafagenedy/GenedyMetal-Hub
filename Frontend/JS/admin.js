@@ -1,27 +1,53 @@
-// Admin Panel JavaScript
-let adminToken = localStorage.getItem('adminToken');
+// Admin Panel JavaScript — cookie-auth based.
+// adminToken is no longer read; the HttpOnly cookie travels automatically
+// via gmApi.apiFetch (credentials: 'include').
 let currentPage = 1;
 let currentFilters = {};
 
+// XSS guard: escape any user-supplied string before injecting via innerHTML.
+// Reservation/message/customer rows render attacker-controlled fields, so
+// every interpolation of those values must go through this helper.
+function esc(s) {
+    if (s === null || s === undefined) return '';
+    return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM fully loaded');
+    dlog('DOM fully loaded');
     
     const adminUser = JSON.parse(localStorage.getItem('adminUser') || 'null');
-    adminToken = localStorage.getItem('adminToken');
-    
-    console.log('adminToken:', adminToken);
-    console.log('adminUser:', adminUser);
-    
-    if (!adminUser || adminUser.role !== 'admin' || !adminToken) {
-        console.log('No valid admin session, redirecting to login');
+
+    if (!adminUser || adminUser.role !== 'admin') {
+        dlog('No valid admin session, redirecting to login');
         window.location.href = 'admin-login.html';
         return;
     }
+    // Note: the HttpOnly auth cookie is the actual credential and is verified
+    // by the backend on every call below. apiFetch redirects on 401.
     
     // Initialize admin panel
-    console.log('Initializing admin dashboard');
+    dlog('Initializing admin dashboard');
     loadReservations();
     loadMessages();
+
+    // Event delegation: replaces inline onclick="..." (XSS-hardened)
+    document.body.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-action][data-id]');
+        if (!btn) return;
+        const id = btn.dataset.id;
+        switch (btn.dataset.action) {
+            case 'edit':         editReservation(id); break;
+            case 'delete':       deleteReservation(id); break;
+            case 'msg-read':     updateMessageStatus(id, 'read'); break;
+            case 'msg-replied':  updateMessageStatus(id, 'replied'); break;
+            case 'msg-delete':   deleteMessage(id); break;
+        }
+    });
     
     // Add navigation functionality
     initializeNavigation();
@@ -75,10 +101,9 @@ function showSection(sectionName) {
     }
 }
 
-// Logout functionality
-function logout() {
-    localStorage.removeItem('adminToken');
-    localStorage.removeItem('adminUser');
+// Logout functionality — cookies are cleared by the server.
+async function logout() {
+    await gmApi.logout();
     window.location.href = 'admin-login.html';
 }
 
@@ -93,11 +118,7 @@ async function loadReservations(page = 1) {
         
         
 
-        const response = await fetch(`http://localhost:3000/reservations/all?${params}`, {
-            headers: {
-                'Authorization': `Bearer ${adminToken}`
-            }
-        });
+        const response = await gmApi.apiFetch(`/reservations/all?${params}`);
 
         
         if (!response.ok) {
@@ -109,8 +130,8 @@ async function loadReservations(page = 1) {
         }
         
         const data = await response.json();
-        console.log('Fetched reservation data:', data); // ← Add this line
-        console.log('Sending reservations to display:', data.reservations); // ← Add this line
+        dlog('Fetched reservation data:', data); // ← Add this line
+        dlog('Sending reservations to display:', data.reservations); // ← Add this line
 
         displayReservations(data.reservations);
         updateStats(data.reservations);
@@ -144,37 +165,37 @@ function displayReservations(reservations) {
         reservationCard.className = 'reservation-card';
         reservationCard.innerHTML = `
             <div class="reservation-header">
-                <h3 class="reservation-name">${reservation.fullName}</h3>
-                <span class="status-badge ${reservation.status}">${reservation.status}</span>
+                <h3 class="reservation-name">${esc(reservation.fullName)}</h3>
+                <span class="status-badge ${esc(reservation.status)}">${esc(reservation.status)}</span>
             </div>
             <div class="reservation-details">
                 <div class="detail-item">
                     <i class="fas fa-envelope"></i>
-                    <span>${reservation.email}</span>
+                    <span>${esc(reservation.email)}</span>
                 </div>
                 <div class="detail-item">
                     <i class="fas fa-phone"></i>
-                    <span>${reservation.phone}</span>
+                    <span>${esc(reservation.phone)}</span>
                 </div>
                 <div class="detail-item">
                     <i class="fas fa-calendar"></i>
-                    <span>${reservation.visitType}</span>
+                    <span>${esc(reservation.visitType)}</span>
                 </div>
                 <div class="detail-item">
                     <i class="fas fa-clock"></i>
-                    <span>${reservation.preferredDate ? new Date(reservation.preferredDate).toLocaleDateString() : 'Not specified'}</span>
+                    <span>${reservation.preferredDate ? esc(new Date(reservation.preferredDate).toLocaleDateString()) : 'Not specified'}</span>
                 </div>
                 <div class="detail-item">
                     <i class="fas fa-time"></i>
-                    <span>${reservation.preferredTime || 'Not specified'}</span>
+                    <span>${esc(reservation.preferredTime || 'Not specified')}</span>
                 </div>
             </div>
             <div class="reservation-actions">
-                <button class="action-btn edit" onclick="editReservation('${reservation._id}')">
+                <button class="action-btn edit" data-action="edit" data-id="${esc(reservation._id)}">
                     <i class="fas fa-edit"></i>
                     Edit
                 </button>
-                <button class="action-btn delete" onclick="deleteReservation('${reservation._id}')">
+                <button class="action-btn delete" data-action="delete" data-id="${esc(reservation._id)}">
                     <i class="fas fa-trash"></i>
                     Delete
                 </button>
@@ -255,12 +276,8 @@ function filterReservations() {
 // Edit reservation
 async function editReservation(id) {
     try {
-        const response = await fetch(`http://localhost:3000/reservations/${id}`, {
-            headers: {
-                'Authorization': `Bearer ${adminToken}`
-            }
-        });
-        
+        const response = await gmApi.apiFetch(`/reservations/${id}`);
+
         if (!response.ok) throw new Error('Failed to load reservation');
         
         const data = await response.json();
@@ -299,15 +316,11 @@ async function updateReservation() {
     };
     
     try {
-        const response = await fetch(`http://localhost:3000/reservations/${id}`, {
+        const response = await gmApi.apiFetch(`/reservations/${id}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${adminToken}`
-            },
-            body: JSON.stringify(updateData)
+            json: updateData,
         });
-        
+
         if (!response.ok) throw new Error('Failed to update reservation');
         
         const data = await response.json();
@@ -326,16 +339,18 @@ async function updateReservation() {
 
 // Delete reservation
 async function deleteReservation(id) {
-    if (!confirm('Are you sure you want to delete this reservation?')) return;
+    const ok = await gmConfirm({
+        title: 'Delete reservation?',
+        message: "This permanently removes the reservation. The customer's record will be lost.",
+        confirmLabel: 'Delete',
+        cancelLabel: 'Keep',
+        danger: true,
+    });
+    if (!ok) return;
     
     try {
-        const response = await fetch(`http://localhost:3000/reservations/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${adminToken}`
-            }
-        });
-        
+        const response = await gmApi.apiFetch(`/reservations/${id}`, { method: 'DELETE' });
+
         if (!response.ok) throw new Error('Failed to delete reservation');
         
         showAlert('Reservation deleted successfully', 'success');
@@ -349,13 +364,13 @@ async function deleteReservation(id) {
 
 // Export data functionality
 function exportData() {
-    console.log('Export functionality - to be implemented');
+    dlog('Export functionality - to be implemented');
     showAlert('Export functionality coming soon!', 'info');
 }
 
 // Add manual booking functionality
 function addManualBooking() {
-    console.log('Add manual booking functionality - to be implemented');
+    dlog('Add manual booking functionality - to be implemented');
     showAlert('Manual booking functionality coming soon!', 'info');
 }
 
@@ -409,22 +424,15 @@ async function loadMessages(page = 1) {
             limit: 10
         });
 
-        const response = await fetch(`http://localhost:3000/messages?${params}`, {
-            headers: {
-                'Authorization': `Bearer ${adminToken}`
-            }
-        });
+        const response = await gmApi.apiFetch(`/messages?${params}`);
 
         if (!response.ok) {
-            if (response.status === 401) {
-                logout();
-                return;
-            }
+            if (response.status === 401) { logout(); return; }
             throw new Error('Failed to load messages');
         }
         
         const data = await response.json();
-        console.log('Fetched message data:', data);
+        dlog('Fetched message data:', data);
 
         displayMessages(data.data);
         updateMessageStats(data.data);
@@ -456,36 +464,36 @@ function displayMessages(messages) {
         messageCard.className = `message-card ${message.status}`;
         messageCard.innerHTML = `
             <div class="message-header">
-                <h3 class="message-name">${message.name}</h3>
-                <span class="status-badge ${message.status}">${message.status}</span>
+                <h3 class="message-name">${esc(message.name)}</h3>
+                <span class="status-badge ${esc(message.status)}">${esc(message.status)}</span>
             </div>
             <div class="message-details">
                 <div class="detail-item">
                     <i class="fas fa-envelope"></i>
-                    <span>${message.email}</span>
+                    <span>${esc(message.email)}</span>
                 </div>
                 <div class="detail-item">
                     <i class="fas fa-phone"></i>
-                    <span>${message.phone}</span>
+                    <span>${esc(message.phone)}</span>
                 </div>
                 <div class="detail-item">
                     <i class="fas fa-clock"></i>
-                    <span>${new Date(message.createdAt).toLocaleDateString()}</span>
+                    <span>${esc(new Date(message.createdAt).toLocaleDateString())}</span>
                 </div>
             </div>
             <div class="message-content">
-                <p>${message.message}</p>
+                <p>${esc(message.message)}</p>
             </div>
             <div class="message-actions">
-                <button class="action-btn edit" onclick="updateMessageStatus('${message._id}', 'read')">
+                <button class="action-btn edit" data-action="msg-read" data-id="${esc(message._id)}">
                     <i class="fas fa-eye"></i>
                     Mark as Read
                 </button>
-                <button class="action-btn confirm" onclick="updateMessageStatus('${message._id}', 'replied')">
+                <button class="action-btn confirm" data-action="msg-replied" data-id="${esc(message._id)}">
                     <i class="fas fa-reply"></i>
                     Mark as Replied
                 </button>
-                <button class="action-btn delete" onclick="deleteMessage('${message._id}')">
+                <button class="action-btn delete" data-action="msg-delete" data-id="${esc(message._id)}">
                     <i class="fas fa-trash"></i>
                     Delete
                 </button>
@@ -518,13 +526,9 @@ function updateMessageStats(messages) {
 // Update message status
 async function updateMessageStatus(messageId, status) {
     try {
-        const response = await fetch(`http://localhost:3000/messages/${messageId}`, {
+        const response = await gmApi.apiFetch(`/messages/${messageId}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${adminToken}`
-            },
-            body: JSON.stringify({ status })
+            json: { status },
         });
 
         if (!response.ok) {
@@ -543,17 +547,17 @@ async function updateMessageStatus(messageId, status) {
 
 // Delete message
 async function deleteMessage(messageId) {
-    if (!confirm('Are you sure you want to delete this message?')) {
-        return;
-    }
+    const ok = await gmConfirm({
+        title: 'Delete message?',
+        message: "This permanently removes the customer's message.",
+        confirmLabel: 'Delete',
+        cancelLabel: 'Keep',
+        danger: true,
+    });
+    if (!ok) return;
 
     try {
-        const response = await fetch(`http://localhost:3000/messages/${messageId}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${adminToken}`
-            }
-        });
+        const response = await gmApi.apiFetch(`/messages/${messageId}`, { method: 'DELETE' });
 
         if (!response.ok) {
             throw new Error('Failed to delete message');
@@ -570,13 +574,16 @@ async function deleteMessage(messageId) {
 
 // Mark all messages as read
 async function markAllAsRead() {
+    const ok = await gmConfirm({
+        title: 'Mark all as read?',
+        message: 'This affects every pending message. The change cannot be undone.',
+        confirmLabel: 'Mark all read',
+        cancelLabel: 'Cancel',
+    });
+    if (!ok) return;
     try {
         // Get all pending messages
-        const response = await fetch('http://localhost:3000/messages?status=pending', {
-            headers: {
-                'Authorization': `Bearer ${adminToken}`
-            }
-        });
+        const response = await gmApi.apiFetch('/messages?status=pending');
 
         if (!response.ok) {
             throw new Error('Failed to fetch pending messages');
@@ -611,32 +618,79 @@ function updateMessagePagination(pagination) {
     // Implementation can be added if needed
 }
 
-// Fetch and display all customers in the Customers section
-async function loadAllCustomers() {
+// Customers — server-side search + pagination so it scales past a few hundred users.
+let customerPage = 1;
+let customerSearchAbort = null;
+let customerSearchDebounce = null;
+
+async function loadAllCustomers(page = 1, search = '') {
+    customerPage = page;
+    // Cancel any in-flight request from a previous keystroke.
+    if (customerSearchAbort) customerSearchAbort.abort();
+    customerSearchAbort = new AbortController();
+    const params = new URLSearchParams({ page: String(page), limit: '50' });
+    if (search) params.set('search', search);
+
     try {
-        const response = await fetch('http://localhost:3000/users/all', {
-            headers: {
-                'Authorization': `Bearer ${adminToken}`
-            }
+        const response = await gmApi.apiFetch(`/users/all?${params}`, {
+            signal: customerSearchAbort.signal,
         });
         if (!response.ok) throw new Error('Failed to load customers');
         const data = await response.json();
-        const users = data.data;
-        renderCustomersTable(users);
-        // Attach search handler
-        const searchInput = document.getElementById('customerSearchInput');
-        searchInput.oninput = function() {
-            const q = this.value.toLowerCase();
-            const filtered = users.filter(u =>
-                (u.fullName && u.fullName.toLowerCase().includes(q)) ||
-                (u.email && u.email.toLowerCase().includes(q))
-            );
-            renderCustomersTable(filtered);
-        };
+        renderCustomersTable(data.data || []);
+        renderCustomerPagination(data.pagination || {});
     } catch (error) {
-        console.error('Error loading customers:', error);
+        if (error.name === 'AbortError') return;
+        console.error('Error loading customers:', error.message);
         showAlert('Error loading customers', 'danger');
     }
+
+    // Attach the debounced search handler once.
+    const searchInput = document.getElementById('customerSearchInput');
+    if (searchInput && !searchInput.dataset.bound) {
+        searchInput.dataset.bound = '1';
+        searchInput.addEventListener('input', () => {
+            clearTimeout(customerSearchDebounce);
+            customerSearchDebounce = setTimeout(() => {
+                loadAllCustomers(1, searchInput.value.trim());
+            }, 250);
+        });
+    }
+}
+
+function renderCustomerPagination({ currentPage, totalPages, total }) {
+    let pager = document.getElementById('customerPagination');
+    if (!pager) {
+        pager = document.createElement('div');
+        pager.id = 'customerPagination';
+        pager.style.cssText = 'display:flex;align-items:center;gap:12px;margin-top:14px;justify-content:flex-end;color:var(--muted-text);';
+        const wrapper = document.querySelector('.customers-table-wrapper');
+        if (wrapper && wrapper.parentNode) wrapper.parentNode.appendChild(pager);
+    }
+    if (!totalPages || totalPages <= 1) {
+        pager.innerHTML = total ? `<span>${total} customer${total === 1 ? '' : 's'}</span>` : '';
+        return;
+    }
+    pager.innerHTML = '';
+    const info = document.createElement('span');
+    info.textContent = `Page ${currentPage} of ${totalPages} · ${total} total`;
+    pager.appendChild(info);
+
+    const mkBtn = (label, target, disabled) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = label;
+        b.disabled = !!disabled;
+        b.style.cssText = 'min-height:36px;padding:6px 14px;border-radius:8px;border:1px solid var(--border-color);background:transparent;color:var(--light-text);cursor:pointer;';
+        if (disabled) { b.style.opacity = '0.5'; b.style.cursor = 'not-allowed'; }
+        b.addEventListener('click', () => {
+            const search = (document.getElementById('customerSearchInput') || {}).value || '';
+            loadAllCustomers(target, search.trim());
+        });
+        return b;
+    };
+    pager.appendChild(mkBtn('Prev', currentPage - 1, currentPage <= 1));
+    pager.appendChild(mkBtn('Next', currentPage + 1, currentPage >= totalPages));
 }
 
 function renderCustomersTable(users) {
@@ -650,10 +704,10 @@ function renderCustomersTable(users) {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${idx + 1}</td>
-            <td>${user.fullName || ''}</td>
-            <td>${user.email || ''}</td>
-            <td>${user.role || ''}</td>
-            <td>${user.createdAt ? new Date(user.createdAt).toLocaleDateString() : ''}</td>
+            <td>${esc(user.fullName)}</td>
+            <td>${esc(user.email)}</td>
+            <td>${esc(user.role)}</td>
+            <td>${user.createdAt ? esc(new Date(user.createdAt).toLocaleDateString()) : ''}</td>
         `;
         tbody.appendChild(tr);
     });

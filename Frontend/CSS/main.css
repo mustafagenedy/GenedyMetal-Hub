@@ -5,25 +5,17 @@ File Name: style.css (Modernized Dark Theme)
 /*--------------------------------------------------------------------- 
 Import Fonts 
 ---------------------------------------------------------------------*/
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap');
+/* Fonts are loaded once via the HTML <head> on each page. */
 
 
 /*--------------------------------------------------------------------- 
 Import Files 
 ---------------------------------------------------------------------*/
-@import url(animate.min.css);
-@import url(normalize.css);
-@import url(icomoon.css);
-@import url(font-awesome.min.css);
-@import url(meanmenu.css);
-@import url(owl.carousel.min.css);
-@import url(swiper.min.css);
-@import url(slick.css);
-@import url(jquery.fancybox.min.css);
-@import url(jquery-ui.css);
-@import url(nice-select.css);
+/* Removed: 11 broken @imports for vendor stylesheets that don't exist
+   in this repo (animate.min, owl.carousel, swiper, slick, fancybox,
+   jquery-ui, nice-select, icomoon, meanmenu, normalize, font-awesome).
+   Each was a 404 on every page load. Bootstrap and Font Awesome are
+   already loaded via CDN <link> in the HTML <head>. */
 
 /*--------------------------------------------------------------------- 
 CSS Variables for Dark Theme
@@ -64,7 +56,6 @@ html {
 
 body {
     color: var(--muted-text);
-    font-size: 14px;
     font-family: 'Poppins', sans-serif;
     line-height: 1.6;
     font-weight: normal;
@@ -91,7 +82,6 @@ a {
 
 a:hover {
     color: var(--accent-color);
-    transform: translateY(-2px);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -134,9 +124,7 @@ img {
     height: auto;
 }
 
-:focus {
-    outline: 0;
-}
+/* :focus / :focus-visible handled in theme.css */
 
 /* Utility Classes */
 .text-primary { color: var(--primary-color) !important; }
@@ -611,21 +599,6 @@ Products Section
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.our_products::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
-    transition: left 0.5s;
-}
-
-.our_products:hover::before {
-    left: 100%;
-}
-
 .our_products:hover {
     transform: translateY(-10px);
     box-shadow: 0 20px 40px rgba(12, 48, 136, 0.3);
@@ -807,21 +780,6 @@ Gallery Section
             cursor: pointer;
             position: relative;
             overflow: hidden;
-        }
-
-        .filter-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .filter-btn:hover::before {
-            left: 100%;
         }
 
         .filter-btn:hover,
@@ -1152,7 +1110,19 @@ Gallery Section
 
         .lightbox-close:hover {
             background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1) rotate(90deg); /* Add a slight rotation effect */
+            transform: scale(1.05);
+        }
+
+        /* Gallery items rendered as <button> — reset native button look */
+        button.gallery-item {
+            background: none;
+            border: 1px solid var(--border-glass);
+            padding: 0;
+            text-align: inherit;
+            font: inherit;
+            color: inherit;
+            display: block;
+            width: 100%;
         }
 
         .lightbox-nav {
@@ -1307,8 +1277,8 @@ Gallery Section
             }
 
             .lightbox-close {
-                width: 40px;
-                height: 40px;
+                width: 44px;
+                height: 44px;
                 font-size: 1.5rem;
                 top: 10px;
                 right: 10px;
@@ -1871,21 +1841,6 @@ Modern HTML Structure Styles
     overflow: hidden;
 }
 
-.history-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
-    transition: left 0.5s;
-}
-
-.history-item:hover::before {
-    left: 100%;
-}
-
 .history-item:hover {
     transform: translateY(-10px);
     box-shadow: 0 20px 40px rgba(12, 48, 136, 0.3);
@@ -1919,22 +1874,6 @@ Modern HTML Structure Styles
     transition: all 0.3s ease;
     height: 100%;
     position: relative;
-}
-
-.product-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
-    transition: left 0.5s;
-    z-index: 1;
-}
-
-.product-card:hover::before {
-    left: 100%;
 }
 
 .product-card:hover {
@@ -2116,6 +2055,32 @@ Modern HTML Structure Styles
 
 .form-control::placeholder {
     color: var(--muted-text);
+}
+
+.form-feedback {
+    display: block;
+    min-height: 1.2em;
+    margin-top: 6px;
+    font-size: 13px;
+    color: #ff7676;
+}
+
+.form-control.is-valid {
+    border-color: var(--success-color);
+}
+.form-control.is-invalid {
+    border-color: #ff7676;
+}
+
+/* Accessible visually-hidden helper (screen-reader-only) */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
 }
 
 .contact-info {

@@ -10,13 +10,15 @@
     <meta name="author" content="جنيدي للمعادن">
     
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../CSS/main.css">
+    <link rel="stylesheet" href="../CSS/theme.css">
+    <script src="../JS/theme.js" defer></script>
     <style>
         body {
             font-family: 'Tajawal', sans-serif;
@@ -464,13 +466,13 @@
                                 
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input type="tel" name="phone" class="form-control" placeholder="رقم الهاتف" required>
+                                        <input type="tel" name="phone" class="form-control" placeholder="رقم الهاتف" required inputmode="tel" autocomplete="tel">
                                     </div>
                                 </div>
                                 
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input type="email" name="email" class="form-control" placeholder="البريد الإلكتروني" required>
+                                        <input type="email" name="email" class="form-control" placeholder="البريد الإلكتروني" required inputmode="email">
                                     </div>
                                 </div>
                                 
@@ -570,8 +572,10 @@
     </footer>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <!-- Custom JS -->
+    <script src="../JS/api.js"></script>
+    <script src="../JS/ui.js"></script>
     <script src="../JS/main.js"></script>
 </body>
 </html>

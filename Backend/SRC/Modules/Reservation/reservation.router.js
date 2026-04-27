@@ -1,10 +1,12 @@
 import express from "express";
 import { adminAuth, auth } from "../../Middleware/auth.js";
+import { contactLimiter } from "../../Middleware/rateLimit.js";
 import { validation } from "../../Middleware/validation.js";
 import {
     createReservation,
     deleteReservation,
     getAllReservations,
+    getMyReservations,
     getReservationById,
     getReservationsByEmail,
     updateReservationStatus
@@ -13,16 +15,18 @@ import { createReservationSchema, updateReservationSchema } from "./reservation.
 
 const reservationRouter = express.Router();
 
-// Public routes (no authentication required)
-reservationRouter.post("/create", validation(createReservationSchema), createReservation);
+// Public — anyone can create a reservation (rate-limited)
+reservationRouter.post("/create", contactLimiter, validation(createReservationSchema), createReservation);
 
-// User routes (protected with user authentication)
+// Authenticated user — only my own reservations (IDOR-safe)
+reservationRouter.get("/mine", auth, getMyReservations);
+// Backwards-compatible alias used by the dashboard frontend
 reservationRouter.get("/user", auth, getReservationsByEmail);
 
-// Admin routes (protected with admin authentication)
-reservationRouter.get("/all", adminAuth, getAllReservations);
-reservationRouter.get("/:id", adminAuth, getReservationById);
-reservationRouter.put("/:id", adminAuth, validation(updateReservationSchema), updateReservationStatus);
+// Admin
+reservationRouter.get("/all",   adminAuth, getAllReservations);
+reservationRouter.get("/:id",   adminAuth, getReservationById);
+reservationRouter.put("/:id",   adminAuth, validation(updateReservationSchema), updateReservationStatus);
 reservationRouter.delete("/:id", adminAuth, deleteReservation);
 
 export default reservationRouter;

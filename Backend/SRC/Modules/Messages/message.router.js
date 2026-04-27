@@ -1,5 +1,6 @@
 import express from "express";
-import { auth } from "../../Middleware/auth.js";
+import { adminAuth, auth } from "../../Middleware/auth.js";
+import { contactLimiter } from "../../Middleware/rateLimit.js";
 import { validation } from "../../Middleware/validation.js";
 import {
     createMessage,
@@ -7,20 +8,24 @@ import {
     getAllMessages,
     getMessageById,
     getMessagesByEmail,
+    getMyMessages,
     updateMessageStatus
 } from "./message.controller.js";
 import { createMessageSchema, updateMessageSchema } from "./message.validation.js";
 
 const router = express.Router();
 
-// Public routes
-router.post("/", validation(createMessageSchema), createMessage);
+// Public — anyone can submit a contact message (rate-limited)
+router.post("/", contactLimiter, validation(createMessageSchema), createMessage);
 
-// Protected routes (admin only)
-router.get("/", auth, getAllMessages);
-router.get("/email/:email", auth, getMessagesByEmail);
-router.get("/:id", auth, getMessageById);
-router.put("/:id", auth, validation(updateMessageSchema), updateMessageStatus);
-router.delete("/:id", auth, deleteMessage);
+// Authenticated user — list ONLY my own messages
+router.get("/mine", auth, getMyMessages);
+
+// Admin-only routes
+router.get("/",             adminAuth, getAllMessages);
+router.get("/email/:email", adminAuth, getMessagesByEmail);
+router.get("/:id",          adminAuth, getMessageById);
+router.put("/:id",          adminAuth, validation(updateMessageSchema), updateMessageStatus);
+router.delete("/:id",       adminAuth, deleteMessage);
 
 export default router;

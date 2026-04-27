@@ -1,4 +1,4 @@
-import Message from "../../../DB/Model/message.model.js";
+import Message from "../../DB/Model/message.model.js";
 
 export const createMessage = async (req, res) => {
     try {
@@ -31,7 +31,6 @@ export const createMessage = async (req, res) => {
         res.status(500).json({ 
             success: false,
             message: "Failed to create message",
-            error: error.message 
         });
     }
 };
@@ -69,7 +68,6 @@ export const getAllMessages = async (req, res) => {
         res.status(500).json({ 
             success: false,
             message: "Failed to get messages",
-            error: error.message 
         });
     }
 };
@@ -94,7 +92,6 @@ export const getMessageById = async (req, res) => {
         res.status(500).json({ 
             success: false,
             message: "Failed to get message",
-            error: error.message 
         });
     }
 };
@@ -126,7 +123,6 @@ export const updateMessageStatus = async (req, res) => {
         res.status(500).json({ 
             success: false,
             message: "Failed to update message status",
-            error: error.message 
         });
     }
 };
@@ -151,23 +147,24 @@ export const deleteMessage = async (req, res) => {
         res.status(500).json({ 
             success: false,
             message: "Failed to delete message",
-            error: error.message 
         });
     }
 };
 
+// Admin-only: list any email's messages.
 export const getMessagesByEmail = async (req, res) => {
     try {
-        const { email } = req.params;
-        const { page = 1, limit = 10 } = req.query;
-        
+        const email = String(req.params.email || "").trim().toLowerCase();
+        const page = Math.max(parseInt(req.query.page || "1", 10), 1);
+        const limit = Math.min(Math.max(parseInt(req.query.limit || "10", 10), 1), 100);
+
         const messages = await Message.find({ email })
             .sort({ createdAt: -1 })
-            .limit(limit * 1)
+            .limit(limit)
             .skip((page - 1) * limit);
-            
+
         const total = await Message.countDocuments({ email });
-        
+
         res.status(200).json({
             success: true,
             data: messages,
@@ -178,11 +175,36 @@ export const getMessagesByEmail = async (req, res) => {
             }
         });
     } catch (error) {
-        console.error("Error getting messages by email:", error);
-        res.status(500).json({ 
-            success: false,
-            message: "Failed to get messages by email",
-            error: error.message 
+        console.error("[messages] getMessagesByEmail error:", error.message);
+        res.status(500).json({ success: false, message: "Failed to get messages by email" });
+    }
+};
+
+// Authenticated user: list ONLY my own messages, keyed by req.user.email.
+export const getMyMessages = async (req, res) => {
+    try {
+        const email = String(req.user.email || "").trim().toLowerCase();
+        const page = Math.max(parseInt(req.query.page || "1", 10), 1);
+        const limit = Math.min(Math.max(parseInt(req.query.limit || "10", 10), 1), 100);
+
+        const messages = await Message.find({ email })
+            .sort({ createdAt: -1 })
+            .limit(limit)
+            .skip((page - 1) * limit);
+
+        const total = await Message.countDocuments({ email });
+
+        res.status(200).json({
+            success: true,
+            data: messages,
+            pagination: {
+                currentPage: page,
+                totalPages: Math.ceil(total / limit),
+                totalMessages: total
+            }
         });
+    } catch (error) {
+        console.error("[messages] getMyMessages error:", error.message);
+        res.status(500).json({ success: false, message: "Failed to get messages" });
     }
 };

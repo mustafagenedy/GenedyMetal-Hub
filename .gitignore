@@ -1,0 +1,41 @@
+# Dependencies — never commit; reinstalled from package-lock.json on every machine.
+node_modules/
+
+# Environment / secrets — values live in Render (backend) and Vercel (frontend) env panels.
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build / cache artifacts
+dist/
+build/
+.next/
+.cache/
+.turbo/
+.parcel-cache/
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Vercel local
+.vercel/
+
+# Claude Code tool state — local-only, not part of the project
+.claude/

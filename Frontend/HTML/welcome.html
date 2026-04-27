@@ -10,13 +10,15 @@
     <meta name="author" content="Genedy Metal">
     
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- CSS File -->
     <link rel="stylesheet" href="../CSS/welcome.css">
+    <link rel="stylesheet" href="../CSS/theme.css">
+    <script src="../JS/theme.js" defer></script>
 </head>
 
 <body>
@@ -31,11 +33,6 @@
             <a href="main.html" class="back-to-home" aria-label="Return to homepage">
                 <i class="fas fa-arrow-left"></i>
                 Back to Home
-            </a>
-
-            <a href="/Frontend/HTML/admin-login.html" class="admin-login-btn" aria-label="Admin login">
-                <i class="fas fa-user-shield"></i>
-                Admin
             </a>
         </div>
 
@@ -107,15 +104,16 @@
             </div>
 
             <div class="quick-access">
-                <a href="#" class="quick-link">Browse Products</a>
-                <a href="#" class="quick-link">Contact Support</a>
-                <a href="#" class="quick-link">View Gallery</a>
+                <a href="main.html#products" class="quick-link">Browse Products</a>
+                <a href="main.html#contact" class="quick-link">Contact Support</a>
+                <a href="main.html#gallery" class="quick-link">View Gallery</a>
+                <a href="admin-login.html" class="quick-link" aria-label="Admin login">Admin</a>
             </div>
         </div>
     </div>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script src="welcome.js"></script>
 </body>
 </html>

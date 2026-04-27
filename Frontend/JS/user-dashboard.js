@@ -1,28 +1,27 @@
-// User Dashboard JavaScript
-let userToken = sessionStorage.getItem('userToken') || localStorage.getItem('userToken');
+// User Dashboard JavaScript — cookie-auth based.
+// userToken is no longer read; the HttpOnly cookie travels via gmApi.apiFetch.
 let currentUser = JSON.parse(sessionStorage.getItem('currentUser') || localStorage.getItem('currentUser') || 'null');
 let currentFilter = 'all';
 
+// XSS guard — escape all user-supplied strings before innerHTML interpolation.
+function esc(s) {
+    if (s === null || s === undefined) return '';
+    return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🔍 User Dashboard loaded');
-    console.log('🔍 User token exists:', !!userToken);
-    console.log('🔍 Current user:', currentUser);
-    console.log('🔍 User token from localStorage:', localStorage.getItem('userToken'));
-    console.log('🔍 Current user from localStorage:', localStorage.getItem('currentUser'));
-    console.log('🔍 User token from sessionStorage:', sessionStorage.getItem('userToken'));
-    console.log('🔍 Current user from sessionStorage:', sessionStorage.getItem('currentUser'));
-    
-    // Check authentication
-    if (!currentUser || !userToken) {
-        console.log('❌ No valid user session, redirecting to signin');
-        console.log('❌ Current user is null/undefined:', !currentUser);
-        console.log('❌ User token is null/undefined:', !userToken);
+    // Display info comes from localStorage; the actual credential is the
+    // HttpOnly cookie. apiFetch will redirect on 401 if the cookie's gone.
+    if (!currentUser) {
         window.location.href = 'signin.html';
         return;
     }
-    
-    console.log('✅ Authentication check passed');
-    
+
     // Initialize dashboard
     initializeDashboard();
     loadUserData();
@@ -101,16 +100,12 @@ async function loadUserReservations() {
     reservationsList.innerHTML = '<div class="loading">Loading reservations...</div>';
     
     try {
-        const params = new URLSearchParams({
-            email: currentUser.email,
-            status: currentFilter !== 'all' ? currentFilter : ''
-        });
-        
-        const response = await fetch(`http://localhost:3000/reservations/user?${params}`, {
-            headers: {
-                'Authorization': `Bearer ${userToken}`
-            }
-        });
+        // Server identifies the user from the token — never trust client-supplied email.
+        const params = new URLSearchParams();
+        if (currentFilter !== 'all') params.set('status', currentFilter);
+        const qs = params.toString() ? `?${params}` : '';
+
+        const response = await gmApi.apiFetch(`/reservations/mine${qs}`);
         
         if (!response.ok) {
             if (response.status === 401) {
@@ -121,7 +116,7 @@ async function loadUserReservations() {
         }
         
         const data = await response.json();
-        console.log('User reservations:', data);
+        dlog('User reservations:', data);
         
         displayUserReservations(data.data || []);
         updateReservationStats(data.data || []);
@@ -153,36 +148,39 @@ function displayUserReservations(reservations) {
     reservations.forEach(reservation => {
         const reservationItem = document.createElement('div');
         reservationItem.className = `reservation-item ${reservation.status}`;
+        const visitTypeLabel = reservation.visitType
+            ? reservation.visitType.charAt(0).toUpperCase() + reservation.visitType.slice(1)
+            : '';
         reservationItem.innerHTML = `
             <div class="reservation-header">
-                <h4 class="reservation-title">${reservation.visitType.charAt(0).toUpperCase() + reservation.visitType.slice(1)} Visit</h4>
-                <span class="reservation-status ${reservation.status}">${reservation.status}</span>
+                <h4 class="reservation-title">${esc(visitTypeLabel)} Visit</h4>
+                <span class="reservation-status ${esc(reservation.status)}">${esc(reservation.status)}</span>
             </div>
             <div class="reservation-details">
                 <div class="reservation-detail">
                     <i class="fas fa-calendar"></i>
-                    <span>${reservation.preferredDate ? new Date(reservation.preferredDate).toLocaleDateString() : 'Date not specified'}</span>
+                    <span>${reservation.preferredDate ? esc(new Date(reservation.preferredDate).toLocaleDateString()) : 'Date not specified'}</span>
                 </div>
                 <div class="reservation-detail">
                     <i class="fas fa-clock"></i>
-                    <span>${reservation.preferredTime || 'Time not specified'}</span>
+                    <span>${esc(reservation.preferredTime || 'Time not specified')}</span>
                 </div>
                 <div class="reservation-detail">
                     <i class="fas fa-envelope"></i>
-                    <span>${reservation.email}</span>
+                    <span>${esc(reservation.email)}</span>
                 </div>
                 <div class="reservation-detail">
                     <i class="fas fa-phone"></i>
-                    <span>${reservation.phone}</span>
+                    <span>${esc(reservation.phone)}</span>
                 </div>
             </div>
             ${reservation.notes ? `
                 <div class="reservation-notes">
-                    <strong>Notes:</strong> ${reservation.notes}
+                    <strong>Notes:</strong> ${esc(reservation.notes)}
                 </div>
             ` : ''}
             <div class="reservation-date">
-                <small>Created: ${new Date(reservation.createdAt).toLocaleDateString()}</small>
+                <small>Created: ${esc(new Date(reservation.createdAt).toLocaleDateString())}</small>
             </div>
         `;
         reservationsList.appendChild(reservationItem);
@@ -195,11 +193,8 @@ async function loadUserMessages() {
     messagesList.innerHTML = '<div class="loading">Loading messages...</div>';
     
     try {
-        const response = await fetch(`http://localhost:3000/messages/email/${encodeURIComponent(currentUser.email)}`, {
-            headers: {
-                'Authorization': `Bearer ${userToken}`
-            }
-        });
+        // Server identifies the user from the auth cookie — /messages/mine is the user-scoped endpoint.
+        const response = await gmApi.apiFetch(`/messages/mine`);
         
         if (!response.ok) {
             if (response.status === 401) {
@@ -210,7 +205,7 @@ async function loadUserMessages() {
         }
         
         const data = await response.json();
-        console.log('User messages:', data);
+        dlog('User messages:', data);
         
         displayUserMessages(data.data || []);
         updateMessageStats(data.data || []);
@@ -245,14 +240,14 @@ function displayUserMessages(messages) {
         messageItem.innerHTML = `
             <div class="message-header">
                 <h5>Message to Genedy Metal</h5>
-                <span class="message-date">${new Date(message.createdAt).toLocaleDateString()}</span>
+                <span class="message-date">${esc(new Date(message.createdAt).toLocaleDateString())}</span>
             </div>
             <div class="message-content">
-                <p>${message.message}</p>
+                <p>${esc(message.message)}</p>
             </div>
             <div class="message-status">
                 <i class="fas fa-info-circle"></i>
-                <span>Status: ${message.status}</span>
+                <span>Status: ${esc(message.status)}</span>
             </div>
         `;
         messagesList.appendChild(messageItem);
@@ -265,9 +260,22 @@ function updateReservationStats(reservations) {
     const pending = reservations.filter(r => r.status === 'pending').length;
     const confirmed = reservations.filter(r => r.status === 'confirmed').length;
     const cancelled = reservations.filter(r => r.status === 'cancelled').length;
-    
+
     document.getElementById('totalReservations').textContent = total;
     document.getElementById('pendingReservations').textContent = pending;
+
+    // Filter button counts. We only have the *filtered* view from the
+    // current request, so only update counts when the filter is 'all'
+    // (otherwise the badges would lose meaning).
+    if (currentFilter !== 'all') return;
+    const counts = { all: total, pending, confirmed, cancelled };
+    document.querySelectorAll('[data-filter]').forEach((btn) => {
+        const key = btn.getAttribute('data-filter');
+        if (!(key in counts)) return;
+        const baseLabel = btn.dataset.label || btn.textContent.replace(/\s*\(\d+\)\s*$/, '').trim();
+        btn.dataset.label = baseLabel;
+        btn.textContent = counts[key] > 0 ? `${baseLabel} (${counts[key]})` : baseLabel;
+    });
 }
 
 // Update message statistics
@@ -279,38 +287,26 @@ function updateMessageStats(messages) {
 // Load user data (for future use)
 async function loadUserData() {
     try {
-        const response = await fetch(`http://localhost:3000/users/profile`, {
-            headers: {
-                'Authorization': `Bearer ${userToken}`
-            }
-        });
+        const response = await gmApi.apiFetch(`/users/profile`);
         
         if (response.ok) {
             const userData = await response.json();
             // Update user data if needed
-            console.log('Updated user data:', userData);
+            dlog('Updated user data:', userData);
         }
     } catch (error) {
         console.error('Error loading user data:', error);
     }
 }
 
-// Edit profile functionality
-function editProfile() {
-    // For now, just show an alert. This can be expanded to show an edit form
-    alert('Profile editing functionality will be implemented soon!');
-}
+// Profile-edit and change-password flows are tracked as feature work
+// (see Phase 3.5 backlog U-08). The buttons that called these stubs were
+// already commented out in user-dashboard.html, so the functions are
+// removed here too rather than leaving dead alerts behind.
 
-// Change password functionality
-function changePassword() {
-    // For now, just show an alert. This can be expanded to show a password change form
-    alert('Password change functionality will be implemented soon!');
-}
-
-// Logout functionality
-function logout() {
-    localStorage.removeItem('userToken');
-    localStorage.removeItem('currentUser');
+// Logout functionality — server clears the cookies via /users/logout.
+async function logout() {
+    await gmApi.logout();
     window.location.href = 'signin.html';
 }
 

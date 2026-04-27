@@ -1,0 +1,130 @@
+/* ---------------------------------------------------------------------
+   theme.css — shared theme primitives for every page
+   - Dark is the default (each page CSS still defines its own :root
+     with brand colors). This file only ADDS:
+       * Light-mode overrides via :root[data-theme="light"]
+       * Global :focus-visible ring
+       * Reduced-motion safety
+       * Floating theme + language toggle styling
+       * Body base font-size of 16px
+   --------------------------------------------------------------------- */
+
+:root {
+  --theme-transition: background-color 250ms ease, color 250ms ease, border-color 250ms ease;
+}
+
+/* Light mode overrides — applied when <html data-theme="light"> */
+:root[data-theme="light"] {
+  --primary-color: #0c3088;
+  --primary-dark: #081f5a;
+  --primary-light: #1a4fa0;
+  --accent-color: #c89b00;          /* darker gold for AA contrast on white */
+  --accent-dark: #a17b00;
+  --dark-bg: #f7f8fa;               /* page background */
+  --darker-bg: #ffffff;             /* deepest "dark" → now white */
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  --light-text: #14181f;            /* primary text (was white) */
+  --muted-text: #4b5563;            /* secondary text */
+  --subtle-text: #6b7280;
+  --border-color: #e5e7eb;
+  --border-hover: #cbd5e1;
+  --card-bg: #ffffff;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(20, 24, 31, 0.08);
+  --border-glass: rgba(20, 24, 31, 0.08);
+  --success-color: #16a34a;
+  --warning-color: #b45309;
+  --error-color: #b91c1c;
+  --danger-color: #b91c1c;
+  --info-color: #1d4ed8;
+  --shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  --shadow-hover: 0 10px 28px rgba(15, 23, 42, 0.10);
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* Smooth theme transitions on common surfaces */
+html, body, header, footer, section, nav, main,
+.card, .product-card, .gallery-item, .contact-form, .navbar,
+.history-item, .filter-btn, .form-control, .contact-item,
+.our_products, .product, .footer-section, .social-link {
+  transition: var(--theme-transition);
+}
+
+/* Body base — was 14px in main.css, restored to readable default */
+body { font-size: 16px; }
+
+/* Quiet for mouse, loud for keyboard */
+:focus { outline: 0; }
+:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Honor OS reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Floating theme + language toggles (auto-injected by theme.js)
+   --------------------------------------------------------------------- */
+.gm-floating-controls {
+  position: fixed;
+  bottom: 20px;
+  inset-inline-end: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1500;
+}
+
+.gm-floating-controls button {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color, #333);
+  background: var(--card-bg, #2a2a2a);
+  color: var(--light-text, #fff);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: background-color 200ms ease, color 200ms ease, transform 200ms ease;
+}
+
+.gm-floating-controls button:hover {
+  transform: translateY(-2px);
+  background: var(--accent-color, #ffd700);
+  color: var(--darker-bg, #0f0f0f);
+}
+
+.gm-floating-controls button:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 3px;
+}
+
+.gm-floating-controls .gm-lang-toggle {
+  font-family: inherit;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+/* If a page wants to hide its inline language link in favor of the
+   floating one, give the link class="nav-lang-toggle". */
+[data-floating-controls="on"] .nav-lang-toggle { display: none; }

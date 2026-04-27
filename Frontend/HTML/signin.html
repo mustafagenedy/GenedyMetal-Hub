@@ -10,13 +10,15 @@
     <meta name="author" content="Genedy Metal">
     
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <!-- CSS File -->
     <link rel="stylesheet" href="../CSS/index.css">
+    <link rel="stylesheet" href="../CSS/theme.css">
+    <script src="../JS/theme.js" defer></script>
 </head>
 
 <body>
@@ -65,7 +67,7 @@
                             
                             <form id="signinForm">
                                 <div class="form-group">
-                                    <input type="email" class="form-control" name="email" placeholder="Email Address" required>
+                                    <input type="email" class="form-control" name="email" placeholder="Email Address" required inputmode="email">
                                 </div>
                                 
                                 <div class="form-group position-relative">
@@ -73,13 +75,6 @@
                                     <button type="button" class="password-toggle" onclick="togglePassword(this)">
                                         <i class="fas fa-eye"></i>
                                     </button>
-                                </div>
-                                
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="remember" name="remember">
-                                    <label class="form-check-label" for="remember">
-                                        Remember me for 30 days
-                                    </label>
                                 </div>
                                 
                                 <button type="submit" class="btn btn-primary">
@@ -111,137 +106,9 @@
     </div>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-    // Password visibility toggle
-    function togglePassword(button) {
-        const input = button.parentElement.querySelector('input');
-        const icon = button.querySelector('i');
-        
-        if (input.type === 'password') {
-            input.type = 'text';
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-        } else {
-            input.type = 'password';
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
-        }
-    }
-
-    // SIGN IN FORM HANDLER - UPDATED TO CONNECT WITH BACKEND
-    document.getElementById('signinForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        // Get form values
-        const email = this.querySelector('input[name="email"]').value.trim();
-        const password = this.querySelector('input[name="password"]').value;
-        const rememberMe = this.querySelector('#remember').checked;
-        
-        // Hide messages
-        document.getElementById('signin-success').style.display = 'none';
-        document.getElementById('signin-error').style.display = 'none';
-        
-        // Basic validation
-        if (!email || !password) {
-            showError('Please fill in all required fields.');
-            return;
-        }
-        
-        try {
-            // Show loading state
-            const submitBtn = this.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Signing in...';
-            
-            console.log('🔍 Attempting login with:', { email, password: '***' });
-            
-            // Call your backend API
-            const response = await fetch('http://localhost:3000/users/signin', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
-            
-            const data = await response.json();
-            
-            // ✅ 1. Debug: Log the complete response
-            console.log("✅ Login response:", data);
-            console.log("✅ Response status:", response.status);
-            console.log("✅ Response ok:", response.ok);
-            
-            if (!response.ok) {
-                throw new Error(data.message || 'Login failed. Please check your credentials.');
-            }
-            
-            // ✅ 2. Debug: Check user role structure
-            console.log("User role:", data?.user?.role);
-            console.log("User object:", data?.user);
-            console.log("Token exists:", !!data?.token);
-            
-            // Store the real token and user from backend
-            if (rememberMe) {
-                localStorage.setItem('userToken', data.token);
-                if (data.user) localStorage.setItem('currentUser', JSON.stringify(data.user));
-                console.log("✅ Stored in localStorage");
-            } else {
-                sessionStorage.setItem('userToken', data.token);
-                if (data.user) sessionStorage.setItem('currentUser', JSON.stringify(data.user));
-                console.log("✅ Stored in sessionStorage");
-            }
-            
-            // Show success message
-            document.getElementById('signin-success').style.display = 'block';
-            
-            // ✅ 3. Debug: Log redirect decision
-            console.log("🔍 Redirect decision - User role:", data?.user?.role);
-            
-            // Redirect based on user role
-            if (data.user && data.user.role === 'admin') {
-                console.log("🔄 Redirecting to admin.html");
-                setTimeout(() => {
-                    window.location.href = 'admin.html';
-                }, 1000);
-            } else {
-                console.log("🔄 Redirecting to user-dashboard.html");
-                setTimeout(() => {
-                    window.location.href = 'user-dashboard.html';
-                }, 1000);
-            }
-            
-            // ✅ 4. Test redirect (uncomment to test if redirects work at all)
-            // setTimeout(() => {
-            //     console.log("🧪 Testing redirect to Google...");
-            //     window.location.href = 'https://google.com';
-            // }, 2000);
-            
-        } catch (error) {
-            // Show error message
-            const errorMsg = document.getElementById('signin-error');
-            const errorText = document.getElementById('error-text');
-            errorText.textContent = error.message;
-            errorMsg.style.display = 'block';
-            
-            console.error('❌ Login error:', error);
-        } finally {
-            // Reset button state
-            const submitBtn = this.querySelector('button[type="submit"]');
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Sign In';
-            }
-        }
-    });
-    
-    function showError(message) {
-        const errorMsg = document.getElementById('signin-error');
-        const errorText = document.getElementById('error-text');
-        errorText.textContent = message;
-        errorMsg.style.display = 'block';
-    }
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="../JS/api.js"></script>
+    <script src="../JS/ui.js"></script>
+    <script src="../JS/signin.js"></script>
 </body>
 </html>
