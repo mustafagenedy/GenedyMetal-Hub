@@ -44,17 +44,23 @@
     return 'en';
   }
 
+  // Robust to both forms of the URL:
+  //   /HTML/main.html  ↔  /HTML-AR/main-ar.html  (with extension)
+  //   /HTML/main       ↔  /HTML-AR/main-ar       (Vercel cleanUrls / no extension)
   function arUrlFor(currentPath) {
-    const file = currentPath.split('/').pop() || 'main.html';
-    const arFile = file.replace('.html', '-ar.html');
-    return currentPath
-      .replace(/\/HTML\/[^/]+$/, `/HTML-AR/${arFile}`);
+    let file = currentPath.split('/').pop() || 'main.html';
+    if (!/-ar(\.html)?$/.test(file)) {
+      file = /\.html$/.test(file)
+        ? file.replace(/\.html$/, '-ar.html')
+        : file + '-ar';
+    }
+    return currentPath.replace(/\/HTML\/[^/]+$/, `/HTML-AR/${file}`);
   }
 
   function enUrlFor(currentPath) {
-    const file = (currentPath.split('/').pop() || 'main-ar.html').replace('-ar.html', '.html');
-    return currentPath
-      .replace(/\/HTML-AR\/[^/]+$/, `/HTML/${file}`);
+    const file = (currentPath.split('/').pop() || 'main-ar.html')
+      .replace(/-ar(\.html)?$/, '$1');
+    return currentPath.replace(/\/HTML-AR\/[^/]+$/, `/HTML/${file}`);
   }
 
   function switchLang(target) {
