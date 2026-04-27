@@ -71,7 +71,7 @@
                     json: { fullName, email, phone, password, confirmPassword },
                 });
                 showSuccess(data.message || 'Account created successfully!');
-                setTimeout(() => { window.location.href = 'signin.html'; }, 1500);
+                setTimeout(() => { window.location.href = gmApi.langPath('signin'); }, 1500);
             } catch (err) {
                 showError(err.message || 'Failed to create account. Please try again.');
             } finally {

@@ -57,7 +57,9 @@
 
                 if (successEl) successEl.style.display = 'block';
 
-                const dest = data.user && data.user.role === 'admin' ? 'admin.html' : 'user-dashboard.html';
+                const dest = data.user && data.user.role === 'admin'
+                    ? gmApi.langPath('admin')           // English-only; cross-folds from AR
+                    : gmApi.langPath('user-dashboard'); // matches current language
                 setTimeout(() => { window.location.href = dest; }, 800);
             } catch (err) {
                 if (errorText) errorText.textContent = err.message || 'Login failed. Please check your credentials.';

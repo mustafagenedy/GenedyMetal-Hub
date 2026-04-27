@@ -63,7 +63,8 @@
             // Don't bounce loops on the auth pages themselves.
             const here = global.location.pathname;
             if (!/(signin|signup|admin-login|index|welcome)/.test(here)) {
-                global.location.href = '../HTML/welcome.html';
+                const onAR = /\/HTML-AR\//.test(here);
+                global.location.href = onAR ? 'welcome-ar.html' : 'welcome.html';
             }
         }
         return res;
@@ -111,6 +112,25 @@
         if (localStorage.getItem('gmDebug') === '1') console.log('[gm]', ...args);
     }
 
-    global.gmApi = { apiFetch, apiJson, logout, dlog, API_BASE };
+    /**
+     * Return the right filename for a logical page based on the current
+     * page's language. Handles AR pages mirroring EN with a `-ar` suffix.
+     * `admin` and `admin-login` have no AR variant — they cross-fold to
+     * EN when called from an AR page.
+     *   langPath('welcome')  → 'welcome.html'  on EN, 'welcome-ar.html'  on AR
+     *   langPath('signin')   → 'signin.html'   on EN, 'signin-ar.html'   on AR
+     *   langPath('admin')    → 'admin.html'    on EN, '../HTML/admin.html' on AR
+     */
+    const ENGLISH_ONLY_PAGES = new Set(['admin', 'admin-login']);
+    function langPath(baseName) {
+        const onAR = /\/HTML-AR\//.test(global.location.pathname);
+        const file = baseName + '.html';
+        if (ENGLISH_ONLY_PAGES.has(baseName)) {
+            return onAR ? '../HTML/' + file : file;
+        }
+        return onAR ? baseName + '-ar.html' : file;
+    }
+
+    global.gmApi = { apiFetch, apiJson, logout, dlog, langPath, API_BASE };
     global.dlog = dlog;
 })(window);

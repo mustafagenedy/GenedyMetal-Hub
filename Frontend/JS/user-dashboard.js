@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Display info comes from localStorage; the actual credential is the
     // HttpOnly cookie. apiFetch will redirect on 401 if the cookie's gone.
     if (!currentUser) {
-        window.location.href = 'signin.html';
+        window.location.href = gmApi.langPath('signin');
         return;
     }
 
@@ -307,7 +307,7 @@ async function loadUserData() {
 // Logout functionality — server clears the cookies via /users/logout.
 async function logout() {
     await gmApi.logout();
-    window.location.href = 'signin.html';
+    window.location.href = gmApi.langPath('signin');
 }
 
 // Show specific section (for navigation)

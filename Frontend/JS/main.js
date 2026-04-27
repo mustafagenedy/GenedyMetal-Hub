@@ -44,7 +44,7 @@ function checkUserAuth() {
 // Logout — cookies cleared server-side via /users/logout.
 async function logout() {
     if (window.gmApi) await window.gmApi.logout();
-    window.location.href = 'welcome.html';
+    window.location.href = window.gmApi ? gmApi.langPath('welcome') : 'welcome.html';
 }
 
 // Wire up the logout button (replaces former inline onclick="logout()")
