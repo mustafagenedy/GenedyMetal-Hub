@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Genedy Metal</title>
+    <meta http-equiv="refresh" content="0; url=HTML/main.html">
+    <link rel="canonical" href="HTML/main.html">
+    <script>
+        // Honor an Arabic preference if the user already chose one.
+        try {
+            var saved = localStorage.getItem('gm-lang');
+            var prefersAr = saved === 'ar' || (!saved && /^ar/i.test(navigator.language || ''));
+            window.location.replace(prefersAr ? 'HTML-AR/main-ar.html' : 'HTML/main.html');
+        } catch (_) {
+            window.location.replace('HTML/main.html');
+        }
+    </script>
+</head>
+<body>
+    <p>Redirecting to <a href="HTML/main.html">Genedy Metal</a>…</p>
+</body>
+</html>

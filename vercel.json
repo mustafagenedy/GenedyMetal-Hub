@@ -8,10 +8,6 @@
     {
       "source": "/api/:path*",
       "destination": "https://genedy-metal-api.onrender.com/:path*"
-    },
-    {
-      "source": "/",
-      "destination": "/HTML/main.html"
     }
   ],
   "redirects": [
